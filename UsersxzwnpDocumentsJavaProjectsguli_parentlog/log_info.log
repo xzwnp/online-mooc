@@ -1,0 +1,40 @@
+2022-01-27 17:54:02.852 [main] INFO  com.example.serviceedu.EduApplication - Starting EduApplication using Java 1.8.0_312 on LAPTOP-LMKTQB33 with PID 1628 (C:\Users\xzwnp\Documents\JavaProjects\guli_parent\service\service-edu\target\classes started by xzwnp in C:\Users\xzwnp\Documents\JavaProjects\guli_parent)
+2022-01-27 17:54:02.855 [main] INFO  com.example.serviceedu.EduApplication - The following profiles are active: dev
+2022-01-27 17:54:03.652 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-27 17:54:03.656 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-01-27 17:54:03.692 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2022-01-27 17:54:04.209 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8001 (http)
+2022-01-27 17:54:04.218 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8001"]
+2022-01-27 17:54:04.218 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-01-27 17:54:04.219 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-01-27 17:54:04.306 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-01-27 17:54:04.307 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1407 ms
+2022-01-27 17:54:04.461 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2022-01-27 17:54:04.785 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2022-01-27 17:54:05.200 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-01-27 17:54:05.772 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8001"]
+2022-01-27 17:54:05.792 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8001 (http) with context path ''
+2022-01-27 17:54:05.793 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2022-01-27 17:54:05.804 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2022-01-27 17:54:05.838 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2022-01-27 17:54:05.966 [main] INFO  com.example.serviceedu.EduApplication - Started EduApplication in 3.661 seconds (JVM running for 4.687)
+2022-01-27 17:54:48.220 [main] INFO  com.example.serviceedu.EduApplication - Starting EduApplication using Java 1.8.0_312 on LAPTOP-LMKTQB33 with PID 1644 (C:\Users\xzwnp\Documents\JavaProjects\guli_parent\service\service-edu\target\classes started by xzwnp in C:\Users\xzwnp\Documents\JavaProjects\guli_parent)
+2022-01-27 17:54:48.222 [main] INFO  com.example.serviceedu.EduApplication - The following profiles are active: dev
+2022-01-27 17:54:48.997 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-27 17:54:49.000 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-01-27 17:54:49.022 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2022-01-27 17:54:49.500 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8001 (http)
+2022-01-27 17:54:49.508 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8001"]
+2022-01-27 17:54:49.509 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-01-27 17:54:49.510 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-01-27 17:54:49.591 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-01-27 17:54:49.591 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1328 ms
+2022-01-27 17:54:49.741 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2022-01-27 17:54:50.060 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2022-01-27 17:54:50.490 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-01-27 17:54:51.090 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8001"]
+2022-01-27 17:54:51.111 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8001 (http) with context path ''
+2022-01-27 17:54:51.112 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2022-01-27 17:54:51.124 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2022-01-27 17:54:51.156 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2022-01-27 17:54:51.283 [main] INFO  com.example.serviceedu.EduApplication - Started EduApplication in 3.532 seconds (JVM running for 4.538)
