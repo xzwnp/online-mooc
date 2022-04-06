@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.serviceedu.mapper.EduCourseMapper">
+
+    <select id="getPublishCourseInfo" resultType="com.example.serviceedu.entity.vo.CoursePublishVo">
+        select c.id         as id
+             , c.title      as title
+             , c.cover      as cover
+             , c.price      as price
+             , s.title      as subjectLevelOne
+             , sp.title     as subjectLevelTwo
+             , t.name       as teacherName
+             , c.lesson_num as lessonNum
+        from edu_course c
+                 left outer join edu_teacher t on c.teacher_id = t.id
+                 left outer join edu_subject s on c.subject_id = s.id
+                 left outer join edu_subject sp on c.subject_parent_id = sp.id
+        WHERE c.id = #{courseId}
+    </select>
+    <select id="getCourseAndTeacherInfoById" resultType="com.example.serviceedu.entity.dto.CourseInfoDto">
+        select c.id,
+               c.title,
+               c.price,
+               c.lesson_num,
+               c.cover,
+               c.buy_count,
+               c.view_count,
+               d.description as description,
+               c.teacher_id,
+               t.name        as teacherName,
+               t.intro       as intro,
+               t.avatar      as avatar,
+               s1.id         as subjectLevelTwoId,
+               s1.title      as subjectLevelOne,
+               s2.id         as subjectLevelTwoId,
+               s2.title      as subjectLevelTwo
+        from edu_course c
+                 left join edu_teacher t on c.teacher_id = t.id
+                 left join edu_subject s1 on c.subject_parent_id = s1.id
+                 left join edu_subject s2 on c.subject_id = s2.id
+                 left join edu_course_description d on c.id = d.id
+        where c.id = #{id}
+    </select>
+</mapper>

@@ -9,9 +9,14 @@ import com.example.serviceedu.service.EduTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mysql.cj.log.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.Vlookup;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -47,5 +52,16 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
         baseMapper.selectPage(page, wrapper);
         return page;
+    }
+
+    @Override
+    @Cacheable(value = "index",key = "'teacherList'")
+    public List<EduTeacher> listCache() {
+        QueryWrapper<EduTeacher> teacherWrapper = new QueryWrapper<>();
+        //暂时算法计算最热的名师,先用获取id最大的4位名师顶着
+        teacherWrapper.orderByDesc("id");
+        //last:拼接到sql语句的
+        teacherWrapper.last("limit 4");
+        return baseMapper.selectList(teacherWrapper);
     }
 }

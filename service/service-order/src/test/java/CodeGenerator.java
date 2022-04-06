@@ -1,5 +1,3 @@
-package com.example.eduservice;
-
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -12,12 +10,12 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
 
 /**
- * com.example.eduservice
+ * com.example.serviceedu.codeGenerator
  *
  * @author xzwnp
- * 2022/1/23
- * 21:47
- * 代码生成器,根据数据库中的表生成相对应的entity,service,mapper
+ * 2022/1/30
+ * 10:07
+ * Steps：
  */
 public class CodeGenerator {
     @Test
@@ -39,7 +37,7 @@ public class CodeGenerator {
          * UcenterService
          * */
         gc.setServiceName("%sService");	//去掉Service接口的首字母I
-        gc.setIdType(IdType.ID_WORKER); //主键策略
+        gc.setIdType(IdType.ID_WORKER_STR); //主键策略
         gc.setDateType(DateType.ONLY_DATE);//定义生成的实体类中日期类型
         gc.setSwagger2(true);//开启Swagger2模式
 
@@ -56,8 +54,9 @@ public class CodeGenerator {
 
         // 4、包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("serviceedu"); //模块名
-        pc.setParent("com.atguigu");
+        pc.setModuleName("serviceorder"); //模块名
+        //
+        pc.setParent("com.example");
         pc.setController("controller");
         pc.setEntity("entity");
         pc.setService("service");
@@ -66,9 +65,9 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_teacher");
+        strategy.setInclude("t_order","t_pay_log");//设置用于逆向工程的表名
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
-        strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
+        strategy.setTablePrefix("t_"); //生成实体时去掉表前缀
 
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略
         strategy.setEntityLombokModel(true); // lombok 模型 @Accessors(chain = true) setter链式操作

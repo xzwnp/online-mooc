@@ -5,11 +5,12 @@
     <modules>
         <module>service</module>
         <module>common</module>
+        <module>api-gateway</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
+        <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
         <!--        父工程通常进行版本的管理以及放公共依赖-->
     </parent>
@@ -50,7 +51,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--Spring Cloud-->
+            <!--Spring Cloud 包括了对feign的版本控制-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -92,14 +93,6 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-
-            <!--aliyunOSS-->
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${aliyun.oss.version}</version>
-            </dependency>
-
             <!--日期时间工具-->
             <dependency>
                 <groupId>joda-time</groupId>
@@ -202,15 +195,26 @@
                 <artifactId>canal.client</artifactId>
                 <version>${canal.client.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
+            <!--            <plugin>-->
+            <!--                <groupId>org.springframework.boot</groupId>-->
+            <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--                <version>2.6.2</version>-->
+            <!--            </plugin>-->
+            <!--            不使用springboot的maven插件，改为使用普通的maven插件，
+            使用springboot的maven插件意味着每个模块都需要有启动类，而使用普通的插件则不需要。-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

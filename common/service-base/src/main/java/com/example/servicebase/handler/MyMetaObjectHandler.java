@@ -1,4 +1,4 @@
-package com.example.serviceedu.Handler;
+package com.example.servicebase.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -21,6 +21,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("gmtCreate", new Date(), metaObject);
         this.setFieldValByName("gmtModified", new Date(), metaObject);
+        this.setFieldValByName("isDeleted",0,metaObject);
+        this.setFieldValByName("version",1L,metaObject);
+
     }
 
     @Override
