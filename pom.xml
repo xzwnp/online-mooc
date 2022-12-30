@@ -5,7 +5,7 @@
     <modules>
         <module>service</module>
         <module>common</module>
-        <module>api-gateway</module>
+        <module>service-doc</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -27,7 +27,6 @@
         <guli.version>0.0.1-SNAPSHOT</guli.version>
         <mybatis-plus.version>3.0.5</mybatis-plus.version>
         <velocity.version>2.0</velocity.version>
-        <swagger.version>2.7.0</swagger.version>
         <aliyun.oss.version>3.1.0</aliyun.oss.version>
         <jodatime.version>2.10.1</jodatime.version>
         <poi.version>3.17</poi.version>
@@ -47,6 +46,8 @@
         <canal.client.version>1.1.0</canal.client.version>
         <docker.image.prefix>zx</docker.image.prefix>
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
+        <knife4j.version>2.0.8</knife4j.version>
+        <swagger.version>1.5.21</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -83,15 +84,14 @@
 
             <!--swagger-->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
-            <!--swagger ui-->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
             <!--日期时间工具-->
             <dependency>
@@ -198,6 +198,20 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <!--            <plugin>-->

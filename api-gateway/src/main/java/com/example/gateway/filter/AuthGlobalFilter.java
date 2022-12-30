@@ -2,6 +2,7 @@ package com.example.gateway.filter;
 
 import com.example.commonutils.JwtUtils;
 import com.google.gson.JsonObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -22,52 +23,54 @@ import java.util.List;
  * </p>
  */
 @Component
+@Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+	private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
-        String path = request.getURI().getPath();
-        //谷粒学院api接口，校验用户必须登录
-        if(antPathMatcher.match("/api/**/auth/**", path)) {
-            List<String> tokenList = request.getHeaders().get("token");
-            if(null == tokenList) {
-                ServerHttpResponse response = exchange.getResponse();
-                return out(response);
-            } else {
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+		ServerHttpRequest request = exchange.getRequest();
+		String path = request.getURI().getPath();
+		log.info("请求路径:{}", path);
+		//谷粒学院api接口，校验用户必须登录
+		if (antPathMatcher.match("/api/**/auth/**", path)) {
+			List<String> tokenList = request.getHeaders().get("token");
+			if (null == tokenList) {
+				ServerHttpResponse response = exchange.getResponse();
+				return out(response);
+			} else {
 //                //判断token是否符合条件
 //                Boolean isCheck = JwtUtils.checkToken(tokenList.get(0));
 //                if(!isCheck) {
-                    ServerHttpResponse response = exchange.getResponse();
-                    return out(response);
+				ServerHttpResponse response = exchange.getResponse();
+				return out(response);
 //                }
-            }
-        }
-        //内部服务接口，不允许外部访问
-        if(antPathMatcher.match("/**/inner/**", path)) {
-            ServerHttpResponse response = exchange.getResponse();
-            return out(response);
-        }
-        return chain.filter(exchange);
-    }
+			}
+		}
+		//内部服务接口，不允许外部访问
+		if (antPathMatcher.match("/**/inner/**", path)) {
+			ServerHttpResponse response = exchange.getResponse();
+			return out(response);
+		}
+		return chain.filter(exchange);
+	}
 
-    @Override
-    public int getOrder() {
-        return 0;
-    }
+	@Override
+	public int getOrder() {
+		return 0;
+	}
 
-    private Mono<Void> out(ServerHttpResponse response) {
-        JsonObject message = new JsonObject();
-        message.addProperty("success", false);
-        message.addProperty("code", 28004);
-        message.addProperty("data", "鉴权失败");
-        byte[] bits = message.toString().getBytes(StandardCharsets.UTF_8);
-        DataBuffer buffer = response.bufferFactory().wrap(bits);
-        //response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        //指定编码，否则在浏览器中会中文乱码
-        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-        return response.writeWith(Mono.just(buffer));
-    }
+	private Mono<Void> out(ServerHttpResponse response) {
+		JsonObject message = new JsonObject();
+		message.addProperty("success", false);
+		message.addProperty("code", 28004);
+		message.addProperty("data", "鉴权失败");
+		byte[] bits = message.toString().getBytes(StandardCharsets.UTF_8);
+		DataBuffer buffer = response.bufferFactory().wrap(bits);
+		//response.setStatusCode(HttpStatus.UNAUTHORIZED);
+		//指定编码，否则在浏览器中会中文乱码
+		response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+		return response.writeWith(Mono.just(buffer));
+	}
 }

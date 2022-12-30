@@ -1,0 +1,60 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    nacos:
+      discovery:
+        namespace: guli-xueyuan
+        server-addr: 8.134.162.31:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求 allowedOrigins: “*” 允许所有网站
+              - "*"
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
+      default-filters:
+        #解决重复跨域问题,我也不知道为什么会重复,反正就很神奇
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      routes:
+        - id: service-edu
+          predicates: Path=/eduservice/**
+          uri: lb://service-edu
+        - id: service-ucenter
+          predicates: Path=/educenter/**
+          uri: lb://service-ucenter
+        - id: service-cms
+          predicates: Path=/educms/**
+          uri: lb://service-cms
+        - id: service-msm
+          predicates: Path=/edumsm/**
+          uri: lb://service-msm
+        - id: service-order
+          predicates: Path=/orderservice/**
+          uri: lb://service-order
+
+        - id: service-oss
+          predicates: Path=/eduoss/**
+          uri: lb://service-oss
+
+        - id: service-statistics
+          predicates: Path=/staservice/**
+          uri: lb://service-statistics
+
+        - id: service-vod
+          predicates: Path=/eduvod/**
+          uri: lb://service-vod
+

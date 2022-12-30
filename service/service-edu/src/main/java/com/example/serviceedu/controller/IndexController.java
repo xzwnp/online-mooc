@@ -25,18 +25,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("eduservice/index")
-@Api("获取首页数据")
+@Api(tags = "获取首页数据")
 public class IndexController {
-    @Autowired
-    EduTeacherService teacherService;
-    @Autowired
-    EduCourseService courseService;
+	@Autowired
+	EduTeacherService teacherService;
+	@Autowired
+	EduCourseService courseService;
 
-    @GetMapping
-    @ApiOperation("获取前8热门课程和前4位最热名师")
-    public R index(){
-        List<EduTeacher> teacherList = teacherService.listCache();
-        List<EduCourse> courseList = courseService.listCache();
-        return R.ok().data("courseList",courseList).data("teacherList",teacherList);
-    }
+	@GetMapping
+	@ApiOperation("获取前8热门课程和前4位最热名师")
+	public R index() {
+		List<EduTeacher> teacherList = teacherService.listCache();
+		List<EduCourse> courseList = courseService.listCache();
+		return R.ok().data("courseList", courseList).data("teacherList", teacherList);
+	}
 }

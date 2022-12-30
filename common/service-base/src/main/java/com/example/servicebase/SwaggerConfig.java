@@ -1,51 +1,46 @@
 package com.example.servicebase;
 
-import com.google.common.base.Predicates;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-/**
- * com.example.servicebase
- *
- * @author xzwnp
- * 2022/1/26
- * 21:09
- * Steps：
- */
 
-@Configuration//配置类
-@EnableSwagger2 //swagger注解
+@Configuration
+@EnableSwagger2WebMvc
+@EnableKnife4j
+@Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
 
-    @Bean
-    public Docket webApiConfig() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("webApi")
-                .apiInfo(webApiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example"))//配置希望被扫描的包
-                .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
-                .paths(Predicates.not(PathSelectors.regex("/error.*")))
-                .build()
-                .groupName("默认分组");
+	@Bean(value = "userApi")
+	@Order(value = 1)
+	public Docket groupRestApi() {
+		return new Docket(DocumentationType.SWAGGER_2)
+			.apiInfo(groupApiInfo())
+			.select()
+			.apis(RequestHandlerSelectors.basePackage("com.example"))
+			.paths(PathSelectors.any())
+			.build();
+	}
 
-    }
+	private ApiInfo groupApiInfo() {
+		return new ApiInfoBuilder()
+			.title("在线课程学习平台 接口文档")
+			.description("<div style='font-size:14px;color:red;'>参照大多数在线教学网站或慕课网站，为某一公司设计一个方便、实用的在线课程学习平台。该平台主要用于管理和向用户发布公司所有版权的相应学习资料（包括视频、PDF版本讲义等）</div>")
+			.termsOfServiceUrl("http://www.yidongzhenka.top/")
+			.contact("xiao@ynu.icu")
+			.version("1.0")
+			.build();
+	}
 
-    private ApiInfo webApiInfo() {
-        return new ApiInfoBuilder()
-                .title("网站-课程中心API文档")
-                .description("本文档描述了课程中心微服务接口定义")
-                .version("1.0")
-                .contact(new Contact("java", "http://atguigu.com", "1123@qq.com"))
-                .build();
-    }
+
 }
-

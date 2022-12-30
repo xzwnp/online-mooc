@@ -16,7 +16,7 @@ import java.io.Serializable;
  * Steps：
  */
 //封装了课程条件查询的条件
-@ApiModel(value = "课程查询对象", description = "课程查询对象封装")
+@ApiModel(value = "课程查询条件", description = "课程查询对象封装")
 @Data
 public class CourseQueryVo implements Serializable {
     private static final long serialVersionUID = 1L;

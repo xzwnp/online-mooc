@@ -3,6 +3,7 @@ package com.example.serviceedu.entity.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 /**
  * com.example.serviceedu.entity.vo
  *
@@ -12,10 +13,10 @@ import lombok.Data;
  * VO（View Object）：视图对象，它的作用是把某个指定页面（或组件）的所有数据封装起来。
  * 相对于使用Map,更推荐使用vo来封装整个表单数据
  */
-@ApiModel(value = "Teacher查询对象", description = "讲师查询对象封装")
+@ApiModel(value = "Teacher查询条件", description = "讲师查询对象封装")
 @Data
 public class TeacherQuery {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "教师名称,模糊查询")
 	private String name;

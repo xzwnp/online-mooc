@@ -32,98 +32,103 @@ import java.util.List;
  * @author atguigu
  * @since 2022-01-31
  */
-@Api("课程添加")
+@Api(tags = "课程控制器")
 @RestController
 @RequestMapping("/eduservice/course")
 @Slf4j
 public class EduCourseController {
-    @Autowired
-    private EduCourseService courseService;
-    @Autowired
-    private EduChapterService chapterService;
+	@Autowired
+	private EduCourseService courseService;
+	@Autowired
+	private EduChapterService chapterService;
 
-    //课程列表 基本实现
-    @PostMapping("current/{current}/size/{size}")
-    public R getCourseList(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) CourseQueryVo courseQueryVo) {
-        Page<EduCourse> page = new Page<>(current, size);
-        try {
-            courseService.conditionalPageList(page, courseQueryVo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return R.ok().data("list", page.getRecords()).data("total", page.getTotal());
-    }
+	//课程列表 基本实现
+	@ApiOperation("分页查询课程列表")
+	@PostMapping("current/{current}/size/{size}")
+	public R getCourseList(@PathVariable Integer current, @PathVariable Integer size, @RequestBody(required = false) CourseQueryVo courseQueryVo) {
+		Page<EduCourse> page = new Page<>(current, size);
+		try {
+			courseService.conditionalPageList(page, courseQueryVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return R.ok().data("list", page.getRecords()).data("total", page.getTotal());
+	}
 
-    //添加课程基本信息的方法
-    @PostMapping("addCourseInfo")
-    public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
-        //返回添加之后课程id，为了后面添加大纲使用
-        String id = courseService.saveCourseInfo(courseInfoVo);
-        return R.ok().data("courseId", id);
-    }
+	@ApiOperation("新增课程")
+	@PostMapping("addCourseInfo")
+	public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
+		//返回添加之后课程id，为了后面添加大纲使用
+		String id = courseService.saveCourseInfo(courseInfoVo);
+		return R.ok().data("courseId", id);
+	}
 
-    //根据课程id查询课程基本信息
-    @GetMapping("getCourseInfo/{courseId}")
-    public R getCourseInfo(@PathVariable String courseId) {
-        CourseInfoVo courseInfoVo = courseService.getCourseInfo(courseId);
-        return R.ok().data("courseInfoVo", courseInfoVo);
-    }
+	@ApiOperation("根据课程id查询课程基本信息,不包括章节信息")
+	@GetMapping("getCourseInfo/{courseId}")
+	public R getCourseInfo(@PathVariable String courseId) {
+		CourseInfoVo courseInfoVo = courseService.getCourseInfo(courseId);
+		return R.ok().data("courseInfoVo", courseInfoVo);
+	}
 
-    //修改课程信息
-    @PostMapping("updateCourseInfo")
-    public R updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
-        courseService.updateCourseInfo(courseInfoVo);
-        return R.ok();
-    }
+	//修改课程信息
+	@PostMapping("updateCourseInfo")
+	@ApiOperation("修改课程信息")
+	public R updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
+		courseService.updateCourseInfo(courseInfoVo);
+		return R.ok();
+	}
 
-    //根据课程id查询课程确认信息
-    @GetMapping("getPublishCourseInfo/{id}")
-    public R getPublishCourseInfo(@PathVariable String id) {
-        CoursePublishVo coursePublishVo = courseService.publishCourseInfo(id);
-        return R.ok().data("publishCourse", coursePublishVo);
-    }
+	@GetMapping("getPublishCourseInfo/{id}")
+	@ApiOperation("发布课程时的课程预览,后台管理系统用")
+	public R getPublishCourseInfo(@PathVariable String id) {
+		CoursePublishVo coursePublishVo = courseService.publishCourseInfo(id);
+		return R.ok().data("publishCourse", coursePublishVo);
+	}
 
-    //课程最终发布
-    //修改课程状态
-    @PostMapping("publishCourse/{id}")
-    public R publishCourse(@PathVariable String id) {
-        EduCourse eduCourse = new EduCourse();
-        eduCourse.setId(id);
-        eduCourse.setStatus("Normal");//设置课程发布状态
-        courseService.updateById(eduCourse);
-        return R.ok();
-    }
+	//课程最终发布
+	//修改课程状态
+	@PostMapping("publishCourse/{id}")
+	@ApiOperation("课程上架")
+	public R publishCourse(@PathVariable String id) {
+		EduCourse eduCourse = new EduCourse();
+		eduCourse.setId(id);
+		eduCourse.setStatus("Normal");//设置课程发布状态
+		courseService.updateById(eduCourse);
+		return R.ok();
+	}
 
-    //删除课程
-    @DeleteMapping("{courseId}")
-    public R deleteCourse(@PathVariable String courseId) {
-        courseService.removeCourse(courseId);
-        return R.ok();
-    }
+	//删除课程
+	@DeleteMapping("{courseId}")
+	@ApiOperation("删除课程")
+	public R deleteCourse(@PathVariable String courseId) {
+		courseService.removeCourse(courseId);
+		return R.ok();
+	}
 
-    @GetMapping("getFrontCourseInfo/{id}")
-    public R getFrontCourseInfo(@PathVariable String id) {
-        try {
-            //查询课程信息,教师信息,课程简介,所属一级/二级学科
-            CourseInfoDto courseAndTeacherInfo = courseService.getCourseAndTeacherInfoById(id);
-            //查询该课程的所有章节
-            List<ChapterVo> chapterList = chapterService.getChapterVideoByCourseId(id);
-            return R.ok().data("course", courseAndTeacherInfo).data("chapterVoList", chapterList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new GuliException(20001, "查询失败");
-        }
+	@GetMapping("getFrontCourseInfo/{id}")
+	@ApiOperation("获取课程信息(移动端)")
+	public R getFrontCourseInfo(@PathVariable String id) {
+		try {
+			//查询课程信息,教师信息,课程简介,所属一级/二级学科
+			CourseInfoDto courseAndTeacherInfo = courseService.getCourseAndTeacherInfoById(id);
+			//查询该课程的所有章节
+			List<ChapterVo> chapterList = chapterService.getChapterVideoByCourseId(id);
+			return R.ok().data("course", courseAndTeacherInfo).data("chapterVoList", chapterList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new GuliException(20001, "查询失败");
+		}
 
-    }
+	}
 
-    @ApiOperation("获取生成订单所需的课程信息")
-    @GetMapping("courseOrderInfo/{courseId}")
-    public CourseOrderVo getCourseInfoDto(@PathVariable String courseId) {
-        CourseInfoDto courseInfoDto = courseService.getCourseAndTeacherInfoById(courseId);
-        CourseOrderVo courseOrderVo = new CourseOrderVo();
-        BeanUtils.copyProperties(courseInfoDto,courseOrderVo);
-        return courseOrderVo;
-    }
+	@ApiOperation("获取生成订单所需的课程信息")
+	@GetMapping("courseOrderInfo/{courseId}")
+	public CourseOrderVo getCourseInfoDto(@PathVariable String courseId) {
+		CourseInfoDto courseInfoDto = courseService.getCourseAndTeacherInfoById(courseId);
+		CourseOrderVo courseOrderVo = new CourseOrderVo();
+		BeanUtils.copyProperties(courseInfoDto, courseOrderVo);
+		return courseOrderVo;
+	}
 
 
 }

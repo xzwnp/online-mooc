@@ -21,7 +21,7 @@ import java.util.List;
  * @author atguigu
  * @since 2022-01-30
  */
-@Api("课程分类管理")
+@Api(tags="课程分类管理")
 @RestController
 @RequestMapping("/eduservice/subject")
 public class EduSubjectController {
@@ -40,7 +40,7 @@ public class EduSubjectController {
         return R.ok();
     }
 
-    @ApiOperation("获取课程信息,并以树状图显示")
+    @ApiOperation("获取全部课程分类,并以树状图显示")
     @GetMapping("getAllSubject")
     public R getAllSubject(){
         List<PrimaryClassification> allSubject = eduSubjectService.getAllSubject();

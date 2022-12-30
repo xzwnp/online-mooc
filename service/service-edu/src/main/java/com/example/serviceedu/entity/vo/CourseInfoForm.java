@@ -2,6 +2,7 @@ package com.example.serviceedu.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
  * Steps：
  */
 @Data
+@ApiModel("课程信息表单")
 public class CourseInfoForm {
 
     @ApiModelProperty(value = "课程讲师ID")

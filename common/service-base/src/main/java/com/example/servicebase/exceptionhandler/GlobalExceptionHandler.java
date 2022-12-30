@@ -20,16 +20,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    //加上这个注解表示用于处理exception异常类
-    @ExceptionHandler(Exception.class)
-    @ResponseBody //指定返回json数据
-    public R error(Exception e) {
-        return R.error().message("执行了全局的异常处理");
-    }
 
-    @ExceptionHandler(GuliException.class)
-    @ResponseBody
-    public R error(GuliException e) {
-        return R.error().code(e.getCode()).message(e.getMsg());
-    }
+	@ExceptionHandler(GuliException.class)
+	@ResponseBody
+	public R error(GuliException e) {
+		log.error("自定义错误:", e);
+		return R.error().code(e.getCode()).message(e.getMsg());
+	}
+
+	//加上这个注解表示用于处理exception异常类
+	@ExceptionHandler(Exception.class)
+	@ResponseBody //指定返回json数据
+	public R error(Exception e) {
+		log.error("服务器出错:", e);
+		return R.error().message("服务器出错,请联系管理员");
+	}
 }

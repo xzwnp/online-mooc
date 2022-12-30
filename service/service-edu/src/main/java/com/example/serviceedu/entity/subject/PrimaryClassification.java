@@ -1,5 +1,8 @@
 package com.example.serviceedu.entity.subject;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +14,13 @@ import java.util.List;
  * 11:04
  * 一级分类
  */
-
+@ApiModel("课程一级分类")
 public class PrimaryClassification {
+	@ApiModelProperty("id")
     private String id;
+	@ApiModelProperty("分类名称")
     private String title;
+	@ApiModelProperty("子分类")
     private List<SecondaryClassification> children;
 
     public PrimaryClassification() {

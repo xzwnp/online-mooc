@@ -1,6 +1,7 @@
 package com.example.serviceedu.controller;
 
 import com.example.commonutils.R;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/eduservice/user")
+@Api(tags = "临时接口 不用管")
 public class EduLoginController {
     //login
     @PostMapping("login")

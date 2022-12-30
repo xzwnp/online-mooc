@@ -3,6 +3,7 @@ package com.example.oss.controller;
 import com.example.commonutils.R;
 import com.example.oss.service.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,14 +21,21 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("eduoss")
-@CrossOrigin
 public class OssController {
-    @Autowired
-    OssService ossService;
-    //上传头像的方法
-    @PostMapping("fileoss")
-    public R uploadOssFile(MultipartFile file){
-        String url = ossService.uploadFile(file);
-        return R.ok().data("url",url);
-    }
+	@Autowired
+	OssService ossService;
+	//上传头像的方法
+	@Value("${aliyun.oss.file.endpoint}")
+	private String useLocalCache;
+
+	@RequestMapping("/get")
+	public String get() {
+		return "useLocalCache:"+useLocalCache;
+	}
+
+	@PostMapping("fileoss")
+	public R uploadOssFile(MultipartFile file) {
+		String url = ossService.uploadFile(file);
+		return R.ok().data("url", url);
+	}
 }
