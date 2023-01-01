@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * com.example
@@ -20,8 +24,19 @@ import org.springframework.context.annotation.ComponentScan;
 //@MapperScan("com.example.crmservice.mapper")
 @EnableDiscoveryClient //nacos注册
 @EnableFeignClients
+@Controller
 public class CrmServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(CrmServiceApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(CrmServiceApplication.class, args);
+	}
+
+	/**
+	 * swagger
+	 */
+	@RequestMapping("/educms/v3/api-docs")
+	public ModelAndView index() {
+		ModelAndView modelAndView = new ModelAndView("/v3/api-docs");
+		return modelAndView;
+	}
+
 }

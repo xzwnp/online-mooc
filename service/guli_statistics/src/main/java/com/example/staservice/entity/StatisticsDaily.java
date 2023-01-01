@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
  * 网站统计日数据
  * </p>
  *
- * @author atguigu
- * @since 2022-04-02
+
+ * 
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -20,8 +20,7 @@ import java.util.List;
  * 讲师 前端控制器
  * </p>
  *
- * @author atguigu
- * @since 2022-01-23
+ * 
  */
 @Api(tags = "教师信息控制器")
 @RestController

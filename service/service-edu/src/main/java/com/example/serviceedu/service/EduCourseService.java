@@ -18,8 +18,8 @@ import java.util.List;
  * 课程 服务类
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 public interface EduCourseService extends IService<EduCourse> {
 

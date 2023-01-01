@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 课程 Mapper 接口
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 public interface EduChapterMapper extends BaseMapper<EduChapter> {
 

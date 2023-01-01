@@ -11,8 +11,8 @@ import java.util.List;
  * 课程 服务类
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 public interface EduChapterService extends IService<EduChapter> {
     //课程大纲列表,根据课程id进行查询

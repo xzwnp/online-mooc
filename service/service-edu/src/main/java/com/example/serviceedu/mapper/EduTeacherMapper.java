@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
  * 讲师 Mapper 接口
  * </p>
  *
- * @author atguigu
- * @since 2022-01-23
+
+ * 
  */
 @Mapper
 public interface EduTeacherMapper extends BaseMapper<EduTeacher> {

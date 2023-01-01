@@ -39,4 +39,5 @@ public class IndexController {
 		List<EduCourse> courseList = courseService.listCache();
 		return R.ok().data("courseList", courseList).data("teacherList", teacherList);
 	}
+
 }

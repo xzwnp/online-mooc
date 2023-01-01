@@ -12,8 +12,8 @@ import java.util.List;
  * 课程科目 服务类
  * </p>
  *
- * @author atguigu
- * @since 2022-01-30
+
+ * 
  */
 public interface EduSubjectService extends IService<EduSubject> {
 

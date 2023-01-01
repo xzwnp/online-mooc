@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * com.example.oss
@@ -18,8 +21,19 @@ import org.springframework.context.annotation.ComponentScans;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @ComponentScan(basePackages = {"com.example"})
 @EnableDiscoveryClient
+@Controller
 public class OssApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(OssApplication.class,args);
-    }
+	public static void main(String[] args) {
+
+		SpringApplication.run(OssApplication.class, args);
+	}
+
+	/**
+	 * swagger
+	 */
+	@RequestMapping("/eduoss/v3/api-docs")
+	public ModelAndView index() {
+		ModelAndView modelAndView = new ModelAndView("/v3/api-docs");
+		return modelAndView;
+	}
 }

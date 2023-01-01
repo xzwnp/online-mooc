@@ -18,8 +18,8 @@ import java.util.List;
  * 课程科目 前端控制器
  * </p>
  *
- * @author atguigu
- * @since 2022-01-30
+
+ * 
  */
 @Api(tags="课程分类管理")
 @RestController

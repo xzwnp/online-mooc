@@ -10,8 +10,8 @@ import java.util.Map;
  * 支付日志表 服务类
  * </p>
  *
- * @author atguigu
- * @since 2022-04-01
+
+ * 
  */
 public interface PayLogService extends IService<PayLog> {
 

@@ -14,8 +14,8 @@ import org.springframework.util.StringUtils;
  * 会员表 服务类
  * </p>
  *
- * @author atguigu
- * @since 2022-03-15
+
+ *
  */
 public interface UcenterMemberService extends IService<UcenterMember> {
     String login(LoginVo loginVo);

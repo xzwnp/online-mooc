@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 会员表 Mapper 接口
  * </p>
  *
- * @author atguigu
- * @since 2022-03-15
+
+ *
  */
 public interface UcenterMemberMapper extends BaseMapper<UcenterMember> {
     Integer countByGmtCreateDaily(String day);

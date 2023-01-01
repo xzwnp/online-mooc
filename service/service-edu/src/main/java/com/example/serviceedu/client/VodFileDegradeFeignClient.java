@@ -14,14 +14,15 @@ import java.util.List;
  * Steps：
  */
 @Component
-public class VodFileDegradeFeignClient implements VodClient{
-    //当被访问的服务器宕机或超时时,会转而执行此方法
-    @Override
-    public R removeVideo(String id) {
-        return R.error().message("time out");
-    }
-    @Override
-    public R removeVideoBatch(List<String> videoIdList) {
-        return R.error().message("time out");
-    }
+public class VodFileDegradeFeignClient implements VodClient {
+	//当被访问的服务器宕机或超时时,会转而执行此方法
+	@Override
+	public R removeVideo(String id) {
+		return R.error().message("视频服务超时,视频删除失败!");
+	}
+
+	@Override
+	public R removeVideoBatch(List<String> videoIdList) {
+		return R.error().message("视频服务超时,视频删除失败!");
+	}
 }

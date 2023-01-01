@@ -14,8 +14,8 @@ import java.util.Map;
  * 课程 Mapper 接口
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 @Mapper
 public interface EduCourseMapper extends BaseMapper<EduCourse> {

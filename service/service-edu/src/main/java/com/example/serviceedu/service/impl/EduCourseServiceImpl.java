@@ -32,8 +32,8 @@ import java.util.List;
  * 课程 服务实现类
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 @Service
 public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse> implements EduCourseService {

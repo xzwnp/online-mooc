@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Steps：
  */
 @Component
-//@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:bootstrap.properties")
 public class WxPropertiesUtil implements InitializingBean {
 
 	@Value("${wx.open.app_id}")

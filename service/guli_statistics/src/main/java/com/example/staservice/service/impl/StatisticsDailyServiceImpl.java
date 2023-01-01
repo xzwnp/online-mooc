@@ -19,8 +19,8 @@ import java.util.Map;
  * 网站统计日数据 服务实现类
  * </p>
  *
- * @author atguigu
- * @since 2022-04-02
+
+ * 
  */
 @Service
 public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMapper, StatisticsDaily> implements StatisticsDailyService {

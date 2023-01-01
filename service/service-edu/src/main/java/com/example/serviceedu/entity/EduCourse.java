@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
  * 课程
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

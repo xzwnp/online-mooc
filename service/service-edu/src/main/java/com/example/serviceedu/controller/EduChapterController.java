@@ -16,8 +16,8 @@ import java.util.List;
  * 课程 前端控制器
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 @RestController
 @RequestMapping("/eduservice/chapter")

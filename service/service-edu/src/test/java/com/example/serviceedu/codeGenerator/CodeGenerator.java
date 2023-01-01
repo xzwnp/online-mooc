@@ -22,66 +22,67 @@ import java.util.Collections;
  * Steps：
  */
 public class CodeGenerator {
-    @Test
-    public void main1() {
+	@Test
+	public void main1() {
 
-        // 1、创建代码生成器
-        AutoGenerator mpg = new AutoGenerator();
+		// 1、创建代码生成器
+		AutoGenerator mpg = new AutoGenerator();
 
-        // 2、全局配置
-        GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
-        System.out.println(projectPath);
-        gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("atguigu");
-        gc.setOpen(false); //生成后是否打开资源管理器
-        gc.setFileOverride(false); //重新生成时文件是否覆盖
-        /*
-         * mp生成service层代码，默认接口名称第一个字母有 I
-         * UcenterService
-         * */
-        gc.setServiceName("%sService");	//去掉Service接口的首字母I
-        gc.setIdType(IdType.ID_WORKER_STR); //主键策略
-        gc.setDateType(DateType.ONLY_DATE);//定义生成的实体类中日期类型
-        gc.setSwagger2(true);//开启Swagger2模式
+		// 2、全局配置
+		GlobalConfig gc = new GlobalConfig();
+		String projectPath = System.getProperty("user.dir");
+		System.out.println(projectPath);
+		gc.setOutputDir(projectPath + "/src/main/java");
+		gc.setAuthor("xiaozhiwei");
+		gc.setOpen(false); //生成后是否打开资源管理器
+		gc.setFileOverride(false); //重新生成时文件是否覆盖
+		/*
+		 * mp生成service层代码，默认接口名称第一个字母有 I
+		 * UcenterService
+		 * */
+		gc.setServiceName("%sService");    //去掉Service接口的首字母I
+		gc.setIdType(IdType.ID_WORKER_STR); //主键策略
+		gc.setDateType(DateType.ONLY_DATE);//定义生成的实体类中日期类型
+		gc.setSwagger2(true);//开启Swagger2模式
 
-        mpg.setGlobalConfig(gc);
+		mpg.setGlobalConfig(gc);
 
-        // 3、数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/guli?serverTimezone=GMT%2B8");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("x.z.w.91");
-        dsc.setDbType(DbType.MYSQL);
-        mpg.setDataSource(dsc);
+		// 3、数据源配置
+		DataSourceConfig dsc = new DataSourceConfig();
+		dsc.setUrl("jdbc:mysql://localhost:3306/guli?serverTimezone=GMT%2B8");
+		dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+		dsc.setUsername("root");
+		dsc.setPassword("x.z.w.91");
+		dsc.setDbType(DbType.MYSQL);
+		mpg.setDataSource(dsc);
 
-        // 4、包配置
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName("serviceedu"); //模块名
-        //
-        pc.setParent("com.example");
-        pc.setController("controller");
-        pc.setEntity("entity");
-        pc.setService("service");
-        pc.setMapper("mapper");
-        mpg.setPackageInfo(pc);
+		// 4、包配置
+		PackageConfig pc = new PackageConfig();
+		pc.setModuleName("serviceedu"); //模块名
+		//
+		pc.setParent("com.example");
+		pc.setController("controller");
+		pc.setEntity("entity");
+		pc.setService("service");
+		pc.setMapper("mapper");
+		mpg.setPackageInfo(pc);
 
-        // 5、策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_course","edu_course_description","edu_video","edu_chapter");//设置用于逆向工程的表名
-        strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
-        strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
+		// 5、策略配置
+		StrategyConfig strategy = new StrategyConfig();
+		strategy.setInclude("edu_comment");//设置用于逆向工程的表名
+		strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
+		strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略
-        strategy.setEntityLombokModel(true); // lombok 模型 @Accessors(chain = true) setter链式操作
+		strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略
+		strategy.setEntityLombokModel(true); // lombok 模型 @Accessors(chain = true) setter链式操作
 
-        strategy.setRestControllerStyle(true); //restful api风格控制器
-        strategy.setControllerMappingHyphenStyle(true); //url中驼峰转连字符
+		strategy.setRestControllerStyle(true); //restful api风格控制器
+		strategy.setControllerMappingHyphenStyle(true); //url中驼峰转连字符
 
-        mpg.setStrategy(strategy);
+		mpg.setStrategy(strategy);
 
-        // 6、执行
-        mpg.execute();
-    }
+		// 6、执行
+		mpg.execute();
+
+	}
 }

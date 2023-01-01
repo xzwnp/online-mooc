@@ -19,41 +19,41 @@ import org.springframework.stereotype.Component;
  * ignoreUnknownFields=false ,当无法赋值时会报错
  */
 @Component
-@ConfigurationProperties(prefix = "aliyun.vod.file", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "aliyun.oss.file")
 public class AliyunVodSDKUtils implements InitializingBean {
-    private String keyId;
-    private String keySecret;
-    public static String ACCESS_KEY_ID;
-    public static String ACCESS_KEY_SECRET;
+	private String keyid;
+	private String keysecret;
+	public static String ACCESS_KEY_ID;
+	public static String ACCESS_KEY_SECRET;
 
-    public String getKeyId() {
-        return keyId;
-    }
+	public String getKeyid() {
+		return keyid;
+	}
 
-    public void setKeyId(String keyId) {
-        this.keyId = keyId;
-    }
+	public void setKeyid(String keyid) {
+		this.keyid = keyid;
+	}
 
-    public String getKeySecret() {
-        return keySecret;
-    }
+	public String getKeysecret() {
+		return keysecret;
+	}
 
-    public void setKeySecret(String keySecret) {
-        this.keySecret = keySecret;
-    }
+	public void setKeysecret(String keysecret) {
+		this.keysecret = keysecret;
+	}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        ACCESS_KEY_ID = keyId;
-        ACCESS_KEY_SECRET = keySecret;
-    }
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		ACCESS_KEY_ID = keyid;
+		ACCESS_KEY_SECRET = keysecret;
+	}
 
-    /**
-     * 使用音视频播放需要先初始化client
-     */
-    public static DefaultAcsClient getClient() throws ClientException {
-        String regionId = "cn-shanghai";  // 点播服务接入地域
-        DefaultProfile profile = DefaultProfile.getProfile(regionId, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
-        return new DefaultAcsClient(profile);
-    }
+	/**
+	 * 使用音视频播放需要先初始化client
+	 */
+	public static DefaultAcsClient getClient() throws ClientException {
+		String regionId = "cn-shanghai";  // 点播服务接入地域
+		DefaultProfile profile = DefaultProfile.getProfile(regionId, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+		return new DefaultAcsClient(profile);
+	}
 }

@@ -27,9 +27,19 @@ import org.springframework.web.servlet.ModelAndView;
 @EnableDiscoveryClient //nacos注册
 @EnableFeignClients //openFeign服务调用
 @MapperScan("com.example.serviceedu.mapper")
+@Controller
+@RefreshScope
 public class EduApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EduApplication.class, args);
 	}
 
+	/**
+	 * swagger
+	 */
+	@RequestMapping("/eduservice/v3/api-docs")
+	public ModelAndView index() {
+		ModelAndView modelAndView = new ModelAndView("/v3/api-docs");
+		return modelAndView;
+	}
 }

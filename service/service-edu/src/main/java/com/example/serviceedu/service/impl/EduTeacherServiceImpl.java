@@ -23,8 +23,8 @@ import java.util.List;
  * 讲师 服务实现类
  * </p>
  *
- * @author atguigu
- * @since 2022-01-23
+
+ * 
  */
 @Service
 @Slf4j

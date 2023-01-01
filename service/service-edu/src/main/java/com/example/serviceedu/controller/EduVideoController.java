@@ -23,8 +23,8 @@ import java.util.Stack;
  * 课程视频 前端控制器
  * </p>
  *
- * @author atguigu
- * @since 2022-01-31
+
+ * 
  */
 @RestController
 @RequestMapping("/eduservice/video")
@@ -39,7 +39,7 @@ public class EduVideoController {
 	@DeleteMapping("{videoId}")
 	@ApiOperation("删除小节")
 	public R removeVideo(@ApiParam(name = "videoId", value = "云端视频id", required = true)
-						 @PathVariable("videoId") String sectionId, @RequestParam Integer type) {
+						 @PathVariable("videoId") String sectionId) {
 		boolean flag = true;
 		//说明:上面的命名有误,video应该是小节,下面的命名无误
 		//每个小节有一个视频,还有其他一些信息(如标题),删除小节时输入小节编号,希望先删除在云存储的视频,再删除在数据库的数据

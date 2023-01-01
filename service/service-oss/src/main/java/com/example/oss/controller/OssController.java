@@ -2,6 +2,7 @@ package com.example.oss.controller;
 
 import com.example.commonutils.R;
 import com.example.oss.service.OssService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("eduoss")
+@Api("文件上传控制器")
 public class OssController {
 	@Autowired
 	OssService ossService;
@@ -30,7 +32,7 @@ public class OssController {
 
 	@RequestMapping("/get")
 	public String get() {
-		return "useLocalCache:"+useLocalCache;
+		return "useLocalCache:" + useLocalCache;
 	}
 
 	@PostMapping("fileoss")

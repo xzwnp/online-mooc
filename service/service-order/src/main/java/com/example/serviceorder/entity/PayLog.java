@@ -17,8 +17,8 @@ import lombok.experimental.Accessors;
  * 支付日志表
  * </p>
  *
- * @author atguigu
- * @since 2022-04-01
+
+ * 
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

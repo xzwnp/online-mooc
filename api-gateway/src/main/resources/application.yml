@@ -9,52 +9,53 @@ spring:
         namespace: guli-xueyuan
         server-addr: 8.134.162.31:8848
     gateway:
+      #      跨域配置文件
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+            allowCredentials: true
       discovery:
         locator:
-          enabled: true
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: # 允许哪些网站的跨域请求 allowedOrigins: “*” 允许所有网站
-              - "*"
-            allowedMethods: # 允许的跨域ajax的请求方式
-              - "GET"
-              - "POST"
-              - "DELETE"
-              - "PUT"
-              - "OPTIONS"
-            allowedHeaders: "*" # 允许在请求中携带的头信息
-            allowCredentials: true # 是否允许携带cookie
-            maxAge: 360000 # 这次跨域检测的有效期
-      default-filters:
-        #解决重复跨域问题,我也不知道为什么会重复,反正就很神奇
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+          enabled: true #开启后,新增一种访问方式:localhost:9527/服务名/资源路径 原访问方式为localhost:9527/资源路径 #是否使用service-id 的小写， 默认是大写。
+          lower-case-service-id: true #是否启动服务名小写
       routes:
         - id: service-edu
           predicates: Path=/eduservice/**
           uri: lb://service-edu
+          swagger-name: "课程教师接口"
         - id: service-ucenter
           predicates: Path=/educenter/**
           uri: lb://service-ucenter
+          swagger-name: "用户中心"
+
         - id: service-cms
           predicates: Path=/educms/**
           uri: lb://service-cms
+          swagger-name: "首页轮播图"
+
         - id: service-msm
           predicates: Path=/edumsm/**
           uri: lb://service-msm
         - id: service-order
           predicates: Path=/orderservice/**
+          swagger-name: "订单服务"
           uri: lb://service-order
 
         - id: service-oss
           predicates: Path=/eduoss/**
+          swagger-name: "文件上传"
           uri: lb://service-oss
 
         - id: service-statistics
           predicates: Path=/staservice/**
+          swagger-name: "统计数据生成"
           uri: lb://service-statistics
 
         - id: service-vod
           predicates: Path=/eduvod/**
+          swagger-name: "视频点播"
           uri: lb://service-vod
 
