@@ -1,6 +1,6 @@
 package com.example.serviceedu.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.example.servicebase.exception.GlobalException;
 import com.example.serviceedu.entity.EduChapter;
 import com.example.serviceedu.entity.EduVideo;
 import com.example.serviceedu.entity.chapter.ChapterVo;
@@ -8,7 +8,6 @@ import com.example.serviceedu.entity.chapter.VideoVo;
 import com.example.serviceedu.mapper.EduChapterMapper;
 import com.example.serviceedu.service.EduChapterService;
 import com.example.serviceedu.service.EduVideoService;
-import com.example.servicebase.exception.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -94,7 +93,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 		int count = videoService.count(wrapper);
 		//判断
 		if (count > 0) {//查询出小节，不进行删除
-			throw new GuliException(20001, "不能删除");
+			throw new GlobalException(20001, "不能删除");
 		} else { //不能查询数据，进行删除
 			//删除章节
 			int result = baseMapper.deleteById(chapterId);

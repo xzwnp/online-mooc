@@ -41,4 +41,12 @@
                  left join edu_course_description d on c.id = d.id
         where c.id = #{id}
     </select>
+    <select id="getSubjectStatistic"
+            resultType="com.example.serviceedu.entity.statistics.CourseSubjectStatistics">
+        select s.id subjectId, s.title title, count(*) courseCount
+        from edu_subject s
+                 left outer join edu_course c on s.id = c.subject_id
+        where s.parent_id != 0
+        group by s.id, s.title
+    </select>
 </mapper>

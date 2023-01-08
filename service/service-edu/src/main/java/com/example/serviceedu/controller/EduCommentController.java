@@ -8,6 +8,7 @@ import com.example.serviceedu.entity.vo.CommentVo;
 import com.example.serviceedu.service.EduCommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("eduservice/comment")
-@Api("评论管理")
+@Api(tags = "评论管理")
+@Slf4j
 public class EduCommentController {
 	@Autowired
 	EduCommentService commentService;

@@ -1,6 +1,5 @@
 package com.example.gateway.filter;
 
-import com.example.commonutils.JwtUtils;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -33,21 +32,6 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 		ServerHttpRequest request = exchange.getRequest();
 		String path = request.getURI().getPath();
 		log.info("请求路径:{}", path);
-		//谷粒学院api接口，校验用户必须登录
-		if (antPathMatcher.match("/api/**/auth/**", path)) {
-			List<String> tokenList = request.getHeaders().get("token");
-			if (null == tokenList) {
-				ServerHttpResponse response = exchange.getResponse();
-				return out(response);
-			} else {
-//                //判断token是否符合条件
-//                Boolean isCheck = JwtUtils.checkToken(tokenList.get(0));
-//                if(!isCheck) {
-				ServerHttpResponse response = exchange.getResponse();
-				return out(response);
-//                }
-			}
-		}
 		//内部服务接口，不允许外部访问
 		if (antPathMatcher.match("/**/inner/**", path)) {
 			ServerHttpResponse response = exchange.getResponse();

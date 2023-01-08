@@ -4,11 +4,9 @@ spring:
   application:
     name: service-edu
   profiles:
-    active: dev
+    active: prod
   cloud:
     nacos:
-      discovery:
-        server-addr: 8.134.162.31:8848
       config:
         server-addr: 8.134.162.31:8848
         namespace: guli-xueyuan

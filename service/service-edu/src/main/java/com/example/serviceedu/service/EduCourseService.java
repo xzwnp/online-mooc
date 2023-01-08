@@ -6,6 +6,7 @@ import com.example.serviceedu.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.serviceedu.entity.EduTeacher;
 import com.example.serviceedu.entity.dto.CourseInfoDto;
+import com.example.serviceedu.entity.statistics.CourseSubjectStatistics;
 import com.example.serviceedu.entity.vo.CourseInfoForm;
 import com.example.serviceedu.entity.vo.CourseInfoVo;
 import com.example.serviceedu.entity.vo.CoursePublishVo;
@@ -44,4 +45,5 @@ public interface EduCourseService extends IService<EduCourse> {
 
     CourseInfoDto getCourseAndTeacherInfoById(String id);
 
+    List<CourseSubjectStatistics> getSubjectStatistic();
 }

@@ -3,7 +3,7 @@ package com.example.serviceedu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.commonutils.R;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import com.example.serviceedu.entity.EduTeacher;
 import com.example.serviceedu.entity.vo.TeacherQuery;
 import com.example.serviceedu.service.EduTeacherService;
@@ -104,12 +104,12 @@ public class EduTeacherController {
 
 	@ApiOperation("生成异常")
 	@GetMapping("createError")
-	public R createError() throws GuliException {
+	public R createError() throws GlobalException {
 		System.out.println("开始打印错误");
 		try {
 			int a = 10 / 0;
 		} catch (Exception e) {
-			throw new GuliException(20001, "不能除0异常");
+			throw new GlobalException(20001, "不能除0异常");
 		}
 		return R.ok();
 	}

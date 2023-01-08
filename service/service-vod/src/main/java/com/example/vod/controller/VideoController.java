@@ -1,19 +1,15 @@
 package com.example.vod.controller;
 
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
-import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
 import com.aliyuncs.vod.model.v20170321.GetPlayInfoResponse;
 import com.example.commonutils.R;
-import com.example.servicebase.exception.GuliException;
 import com.example.vod.service.VideoService;
-import com.example.vod.utils.AliyunVodSDKUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 //import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +35,7 @@ public class VideoController {
 
 	@GetMapping("getVideo/{videoId}")
 	@ApiOperation("输入视频号,获取视频的所有播放地址")
+//	@RequiresAuthentication
 	public R getVideo(@PathVariable String videoId) {
 		try {
 			GetPlayInfoResponse response = videoService.getVideoPlayInfo(videoId);
@@ -60,6 +57,7 @@ public class VideoController {
 
 	@PostMapping("uploadAlyVideo")
 	@ApiOperation("上传视频")
+	@RequiresRoles("course_admin")
 	public R uploadVideo(
 		@ApiParam(name = "file", value = "文件", required = true)
 		@RequestParam("file") MultipartFile file) {
@@ -71,6 +69,7 @@ public class VideoController {
 
 	@DeleteMapping("removeAlyVideo/{id}")
 	@ApiOperation("删除视频")
+	@RequiresRoles("course_admin")
 	public R removeVideo(@ApiParam(name = "videoId", value = "云端视频id", required = true)
 						 @PathVariable("id") String videoId) {
 
@@ -80,6 +79,7 @@ public class VideoController {
 
 	@GetMapping("getPlayAuth/{id}")
 	@ApiOperation("获取视频播放凭证")
+//	@RequiresAuthentication
 	public R getPlayAuth(@ApiParam(name = "videoId", value = "云端视频id", required = true)
 						 @PathVariable("id") String videoId) {
 		log.info(videoId);

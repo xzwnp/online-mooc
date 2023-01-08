@@ -2,13 +2,11 @@ package com.example.serviceedu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.commonutils.vo.CourseOrderVo;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import com.example.serviceedu.entity.EduCourse;
 import com.example.serviceedu.entity.EduCourseDescription;
-import com.example.serviceedu.entity.EduTeacher;
 import com.example.serviceedu.entity.dto.CourseInfoDto;
-import com.example.serviceedu.entity.vo.CourseInfoForm;
+import com.example.serviceedu.entity.statistics.CourseSubjectStatistics;
 import com.example.serviceedu.entity.vo.CourseInfoVo;
 import com.example.serviceedu.entity.vo.CoursePublishVo;
 import com.example.serviceedu.entity.vo.CourseQueryVo;
@@ -22,7 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -58,7 +55,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         int insert = baseMapper.insert(eduCourse);
         if (insert == 0) {
             //添加失败
-            throw new GuliException(20001, "添加课程信息失败");
+            throw new GlobalException(20001, "添加课程信息失败");
         }
 
         //获取添加之后课程id
@@ -98,7 +95,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         BeanUtils.copyProperties(courseInfoVo, eduCourse);
         int update = baseMapper.updateById(eduCourse);
         if (update == 0) {
-            throw new GuliException(20001, "修改课程信息失败");
+            throw new GlobalException(20001, "修改课程信息失败");
         }
 
         //2 修改描述表
@@ -136,7 +133,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         //4 根据课程id删除课程本身
         int result = baseMapper.deleteById(courseId);
         if (result == 0) { //失败返回
-            throw new GuliException(20001, "删除失败");
+            throw new GlobalException(20001, "删除失败");
         }
     }
 
@@ -197,5 +194,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
 
-
+	@Override
+	public List<CourseSubjectStatistics> getSubjectStatistic() {
+		return baseMapper.getSubjectStatistic();
+	}
 }

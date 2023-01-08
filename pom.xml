@@ -46,6 +46,7 @@
         <docker.image.prefix>zx</docker.image.prefix>
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
         <swagger.version>3.0.0</swagger.version>
+        <shiro.version>1.10.0</shiro.version>
     </properties>
 
     <dependencyManagement>
@@ -188,7 +189,11 @@
                 <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
                 <version>2.2.10.RELEASE</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring-boot-web-starter</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

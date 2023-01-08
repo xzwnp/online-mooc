@@ -1,13 +1,9 @@
 package com.example.educenter.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.commonutils.JwtUtils;
 import com.example.educenter.entity.LoginVo;
 import com.example.educenter.entity.RegisterVo;
 import com.example.educenter.entity.UcenterMember;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.servicebase.exception.GuliException;
-import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -19,7 +15,8 @@ import org.springframework.util.StringUtils;
  */
 public interface UcenterMemberService extends IService<UcenterMember> {
     String login(LoginVo loginVo);
-    void register(RegisterVo registerVo);
+
+	void register(RegisterVo registerVo);
     String loginByWeChat(String code);
     UcenterMember getMemberByOpenid(String openid);
 

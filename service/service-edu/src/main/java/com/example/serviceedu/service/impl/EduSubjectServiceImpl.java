@@ -2,7 +2,7 @@ package com.example.serviceedu.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import com.example.serviceedu.entity.EduSubject;
 import com.example.serviceedu.entity.SubjectExcelData;
 import com.example.serviceedu.entity.subject.PrimaryClassification;
@@ -38,10 +38,10 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
             EasyExcel.read(inputStream, SubjectExcelData.class, new SubjectExcelListener(this)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new GuliException(20001, "读取文件流失败!");
+            throw new GlobalException(20001, "读取文件流失败!");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GuliException(20001, "保存失败!");
+            throw new GlobalException(20001, "保存失败!");
         }
     }
 

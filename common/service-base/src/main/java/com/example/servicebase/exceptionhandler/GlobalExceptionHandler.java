@@ -1,13 +1,13 @@
 package com.example.servicebase.exceptionhandler;
 
-import com.example.commonutils.ExceptionUtil;
 import com.example.commonutils.R;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(GuliException.class)
+	@ExceptionHandler(GlobalException.class)
 	@ResponseBody
-	public R error(GuliException e) {
+	public R error(GlobalException e) {
 		log.error("自定义错误:", e);
 		return R.error().code(e.getCode()).message(e.getMsg());
 	}
@@ -35,6 +35,20 @@ public class GlobalExceptionHandler {
 	public R error(CannotCreateTransactionException e) {
 		log.error("数据库连接超时:", e);
 		return R.error().message("数据库连接超时!");
+	}
+
+
+	@ExceptionHandler(AuthenticationException.class)
+	@ResponseBody //指定返回json数据
+	public R error(AuthenticationException e) {
+		return R.error().code(30001).message("token过期或无效,请重新登录!");
+	}
+
+	@ExceptionHandler(AuthorizationException.class)
+	@ResponseBody //指定返回json数据
+	public R error(AuthorizationException e) {
+		log.error("无权限:", e);
+		return R.error().code(30001).message("您没有权限!");
 	}
 
 	//加上这个注解表示用于处理exception异常类

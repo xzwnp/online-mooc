@@ -2,11 +2,12 @@ package com.example.serviceorder.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.commonutils.JwtUtils;
+import com.example.commonutils.JwtEntity;
+import com.example.commonutils.JwtUtil;
 import com.example.commonutils.R;
-import com.example.serviceorder.client.UCenterClient;
 import com.example.serviceorder.entity.Order;
 import com.example.serviceorder.service.OrderService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,10 @@ public class OrderController {
 
     //根据课程id和用户id创建订单，返回订单id
     @GetMapping("createOrder/{courseId}")
-    public R save(@PathVariable String courseId, HttpServletRequest request) {
-        String memberId = JwtUtils.getMemberIdByJwtToken(request);
-        if (StringUtils.isEmpty(memberId)) {
+    public R save(@PathVariable String courseId) {
+		JwtEntity jwtEntity = (JwtEntity) (SecurityUtils.getSubject().getPrincipal());
+		String memberId = jwtEntity.getUserId();
+		if (StringUtils.isEmpty(memberId)) {
             return R.error().message("登录过期!请重新登录");
         }
         String orderId = orderService.saveOrder(courseId, memberId);

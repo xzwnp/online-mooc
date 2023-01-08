@@ -1,27 +1,30 @@
 package com.example.educenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.commonutils.JwtUtils;
+import com.example.commonutils.JwtEntity;
+import com.example.commonutils.JwtUtil;
 import com.example.educenter.entity.LoginVo;
 import com.example.educenter.entity.RegisterVo;
 import com.example.educenter.entity.UcenterMember;
+import com.example.educenter.mapper.RoleMapper;
 import com.example.educenter.mapper.UcenterMemberMapper;
 import com.example.educenter.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.educenter.util.HttpClientUtils;
 import com.example.educenter.util.WxPropertiesUtil;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import org.springframework.util.DigestUtils;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +40,11 @@ public class UcenterMemberServiceImpl
 	@Autowired
 	RedisTemplate<String, Object> redisTemplate;
 
+
+	@Autowired
+	RoleMapper roleMapper;
+
+
 	@Override
 	public String login(LoginVo loginVo) {
 		String mobile = loginVo.getMobile();
@@ -45,27 +53,39 @@ public class UcenterMemberServiceImpl
 		//校验参数
 		if (StringUtils.isEmpty(password) ||
 			StringUtils.isEmpty(mobile)) {
-			throw new GuliException(20001, "请检查输入!");
+			throw new GlobalException(20001, "请检查输入!");
 		}
 
 		//获取会员
 		UcenterMember member = baseMapper.selectOne(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
 		if (null == member) {
-			throw new GuliException(20001, "用户不存在!");
+			throw new GlobalException(20001, "用户不存在!");
 		}
 
 		//校验密码
 		if (!DigestUtils.md5DigestAsHex(loginVo.getPassword().getBytes()).equals(member.getPassword())) {
-			throw new GuliException(20001, "密码错误!");
+			throw new GlobalException(20001, "密码错误!");
 		}
 
 		//校验是否被禁用
 		if (member.getIsDisabled()) {
-			throw new GuliException(20001, "error");
+			throw new GlobalException(20001, "账号已被封禁!");
+		}
+		//查角色
+		List<String> roles = roleMapper.findRolesByUserId(member.getId());
+		//使用JWT生成token字符串
+		JwtEntity jwtEntity = new JwtEntity();
+		jwtEntity.setUserId(member.getId());
+		jwtEntity.setUsername(member.getMobile());
+		jwtEntity.setNickname(member.getNickname());
+		if (roles.isEmpty()) {
+			jwtEntity.setRoles(Arrays.asList("user"));
+		} else {
+			log.info("用户:{},角色:{}", member.getNickname(), roles);
+			jwtEntity.setRoles(roles);
 		}
 
-		//使用JWT生成token字符串
-		String token = JwtUtils.getJwtToken(member.getId(), member.getNickname());
+		String token = JwtUtil.createJwtToken(jwtEntity);
 		return token;
 	}
 
@@ -85,7 +105,7 @@ public class UcenterMemberServiceImpl
 		//查询数据库中是否存在相同的手机号码
 		Integer count = baseMapper.selectCount(new QueryWrapper<UcenterMember>().eq("mobile", mobile));
 		if (count > 0) {
-			throw new GuliException(20001, "该手机号已被注册!");
+			throw new GlobalException(20001, "该手机号已被注册!");
 		}
 
 		//添加注册信息到数据库
@@ -99,7 +119,7 @@ public class UcenterMemberServiceImpl
 			this.save(member);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new GuliException(20001, "注册失败!");
+			throw new GlobalException(20001, "注册失败!");
 		}
 		log.info("注册成功!");
 	}
@@ -124,7 +144,7 @@ public class UcenterMemberServiceImpl
 			responseBody = HttpClientUtils.get(urlForAccessToken);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new GuliException(20001, "获取AccessToken失败!");
+			throw new GlobalException(20001, "获取AccessToken失败!");
 		}
 		//结果被HttpClientUtils转成了String类型,现在把它转回json类型
 		Gson gson = new Gson();
@@ -145,7 +165,7 @@ public class UcenterMemberServiceImpl
 			responseBodyOfUserInfo = HttpClientUtils.get(urlForUserInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new GuliException(20001, "获取用户信息失败!");
+			throw new GlobalException(20001, "获取用户信息失败!");
 		}
 		//该方法会把结果保存到map
 		HashMap<String, String> userInfoMap = gson.fromJson(responseBodyOfUserInfo, HashMap.class);
@@ -159,8 +179,21 @@ public class UcenterMemberServiceImpl
 			member.setNickname(userInfoMap.get("nickname"));
 			baseMapper.insert(member);
 		}
-		//4.返回token
-		return JwtUtils.getJwtToken(member.getId(), member.getNickname());
+		List<String> roles = roleMapper.findRolesByUserId(member.getId());
+		//4.使用JWT生成token字符串
+		JwtEntity jwtEntity = new JwtEntity();
+		jwtEntity.setUserId(member.getId());
+		jwtEntity.setUsername(member.getMobile());
+		jwtEntity.setNickname(member.getNickname());
+		if (roles.isEmpty()) {
+			jwtEntity.setRoles(Arrays.asList("user"));
+		} else {
+			log.info("用户:{},角色:{}", member.getNickname(), roles);
+			jwtEntity.setRoles(roles);
+		}
+
+		String token = JwtUtil.createJwtToken(jwtEntity);
+		return token;
 	}
 
 	@Override

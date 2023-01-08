@@ -8,13 +8,12 @@ import com.example.crmservice.entity.CrmBanner;
 import com.example.crmservice.entity.vo.BannerQuery;
 import com.example.crmservice.mapper.CrmBannerMapper;
 import com.example.crmservice.service.CrmBannerService;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,7 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
         }
         int result = baseMapper.insert(banner);
         if (result <= 0) {
-            throw new GuliException(20001, "保存失败!");
+            throw new GlobalException(20001, "保存失败!");
         }
         ;
     }
@@ -73,7 +72,7 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
             log.error("设置缓存失败!");
         }
         if (baseMapper.updateById(banner) <= 0) {
-            throw new GuliException(20001, "更新失败!");
+            throw new GlobalException(20001, "更新失败!");
         }
         ;
     }
@@ -82,7 +81,7 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
     @Override
     public void removeBannerById(String id) {
         if (baseMapper.deleteById(id) <= 0) {
-            throw new GuliException(20001, "删除失败!");
+            throw new GlobalException(20001, "删除失败!");
         }
     }
 

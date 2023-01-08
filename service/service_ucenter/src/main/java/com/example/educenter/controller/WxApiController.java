@@ -1,15 +1,13 @@
 package com.example.educenter.controller;
 
-import com.example.educenter.entity.UcenterMember;
 import com.example.educenter.service.UcenterMemberService;
 import com.example.educenter.util.WxPropertiesUtil;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -50,7 +48,7 @@ public class WxApiController {
 		try {
 			redirectUrl = URLEncoder.encode(redirectUrl, "UTF-8"); //微信官方要求使用URLEncoder对url编码
 		} catch (UnsupportedEncodingException e) {
-			throw new GuliException(20001, e.getMessage());
+			throw new GlobalException(20001, e.getMessage());
 		}
 
 		// 防止csrf攻击（跨站请求伪造攻击）

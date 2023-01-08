@@ -8,6 +8,7 @@ spring:
       discovery:
         namespace: guli-xueyuan
         server-addr: 8.134.162.31:8848
+        group: PROD_GROUP
     gateway:
       #      跨域配置文件
       globalcors:
@@ -41,7 +42,6 @@ spring:
           uri: lb://service-msm
         - id: service-order
           predicates: Path=/orderservice/**
-          swagger-name: "订单服务"
           uri: lb://service-order
 
         - id: service-oss

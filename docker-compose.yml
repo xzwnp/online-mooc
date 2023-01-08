@@ -1,0 +1,40 @@
+# 目前最稳定版本：3.3，所以3.3就行。
+version: '3.3'
+services:
+  #系统管理服务
+  service-cms:
+    build: ./service/service-cms #Dockerfile所在目录,用来构建镜像
+    restart: on-failure #非正常退出时自动重启
+    ports:
+      - "8010:8010" #指定需要暴露的端口号
+  service-edu:
+    build: ./service/service-edu
+    restart: on-failure #非正常退出时自动重启
+    ports:
+      - "8001:8001"
+  service-oss:
+    build: ./service/service-oss
+    restart: on-failure
+    ports:
+      - "8002:8002"
+  service-vod:
+    build: ./service/service-vod
+    restart: on-failure
+    ports:
+      - "8003:8003"
+  service-ucenter:
+    build: ./service/service_ucenter
+    restart: on-failure
+    ports:
+      - "8004:8004"
+  service-statistics:
+    build: ./service/service-statistics
+    ports:
+      - "8009:8009"
+  service-gateway:
+    build: ./api-gateway
+    restart: on-failure
+    ports:
+      - "9001:9001"
+
+

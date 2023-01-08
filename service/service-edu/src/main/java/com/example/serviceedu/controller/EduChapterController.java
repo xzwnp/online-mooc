@@ -6,6 +6,7 @@ import com.example.serviceedu.entity.EduChapter;
 import com.example.serviceedu.entity.chapter.ChapterVo;
 import com.example.serviceedu.service.EduChapterService;
 import io.swagger.annotations.*;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,6 @@ import java.util.List;
  * <p>
  * 课程 前端控制器
  * </p>
- *
-
- * 
  */
 @RestController
 @RequestMapping("/eduservice/chapter")
@@ -36,6 +34,7 @@ public class EduChapterController {
 	//添加章节
 	@PostMapping("addChapter")
 	@ApiOperation("新增章节")
+	@RequiresRoles("course_admin")
 	public R addChapter(@RequestBody EduChapter eduChapter) {
 		chapterService.save(eduChapter);
 		return R.ok();
@@ -52,6 +51,7 @@ public class EduChapterController {
 	//修改章节
 	@PostMapping("updateChapter")
 	@ApiOperation("修改章节信息")
+	@RequiresRoles("course_admin")
 	public R updateChapter(@RequestBody EduChapter eduChapter) {
 		chapterService.updateById(eduChapter);
 		return R.ok();
@@ -60,6 +60,7 @@ public class EduChapterController {
 	//删除的方法
 	@DeleteMapping("{chapterId}")
 	@ApiOperation("删除整个章节")
+	@RequiresRoles("course_admin")
 	public R deleteChapter(@PathVariable String chapterId) {
 		boolean flag = chapterService.deleteChapter(chapterId);
 		if (flag) {

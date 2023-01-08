@@ -9,7 +9,7 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.utils.StringUtils;
 import com.aliyuncs.vod.model.v20170321.*;
-import com.example.servicebase.exception.GuliException;
+import com.example.servicebase.exception.GlobalException;
 import com.example.vod.service.VideoService;
 import com.example.vod.utils.AliyunVodSDKUtils;
 import lombok.extern.log4j.Log4j2;
@@ -82,12 +82,12 @@ public class VideoServiceImpl implements VideoService {
                 String errorMessage = "阿里云上传错误：" + "code：" + response.getCode() + ", message：" + response.getMessage();
                 log.warn(errorMessage);
                 if (StringUtils.isEmpty(videoId)) {
-                    throw new GuliException(20001, errorMessage);
+                    throw new GlobalException(20001, errorMessage);
                 }
             }
             return videoId;
         } catch (IOException e) {
-            throw new GuliException(20001, "vod 服务上传失败,无法读取文件流");
+            throw new GlobalException(20001, "vod 服务上传失败,无法读取文件流");
         }
     }
 
@@ -103,7 +103,7 @@ public class VideoServiceImpl implements VideoService {
             System.out.print("RequestId = " + response.getRequestId() + "\n");
 
         } catch (ClientException e) {
-            throw new GuliException(20001, "视频删除失败");
+            throw new GlobalException(20001, "视频删除失败");
         }
     }
 }

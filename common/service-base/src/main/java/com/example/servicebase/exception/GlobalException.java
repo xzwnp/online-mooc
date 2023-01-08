@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GuliException extends RuntimeException{
+public class GlobalException extends RuntimeException{
     private int code;
     private String msg;
 

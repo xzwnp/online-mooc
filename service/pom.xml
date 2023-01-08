@@ -16,7 +16,8 @@
         <module>service-oss</module>
         <module>service-vod</module>
         <module>service_ucenter</module>
-        <module>service-order</module>
+        <module>service-cms</module>
+        <module>service-statistics</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -4,12 +4,10 @@ package com.example.serviceedu.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.commonutils.R;
 import com.example.commonutils.vo.CourseOrderVo;
-import com.example.servicebase.exception.GuliException;
-import com.example.serviceedu.entity.EduChapter;
+import com.example.servicebase.exception.GlobalException;
 import com.example.serviceedu.entity.EduCourse;
 import com.example.serviceedu.entity.chapter.ChapterVo;
 import com.example.serviceedu.entity.dto.CourseInfoDto;
-import com.example.serviceedu.entity.vo.CourseInfoForm;
 import com.example.serviceedu.entity.vo.CourseInfoVo;
 import com.example.serviceedu.entity.vo.CoursePublishVo;
 import com.example.serviceedu.entity.vo.CourseQueryVo;
@@ -18,6 +16,7 @@ import com.example.serviceedu.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +27,6 @@ import java.util.List;
  * <p>
  * 课程 前端控制器
  * </p>
- *
- * 
  */
 @Api(tags = "课程控制器")
 @RestController
@@ -56,6 +53,7 @@ public class EduCourseController {
 
 	@ApiOperation("新增课程")
 	@PostMapping("addCourseInfo")
+	@RequiresRoles("course_admin")
 	public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
 		//返回添加之后课程id，为了后面添加大纲使用
 		String id = courseService.saveCourseInfo(courseInfoVo);
@@ -72,6 +70,7 @@ public class EduCourseController {
 	//修改课程信息
 	@PostMapping("updateCourseInfo")
 	@ApiOperation("修改课程信息")
+	@RequiresRoles("course_admin")
 	public R updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
 		courseService.updateCourseInfo(courseInfoVo);
 		return R.ok();
@@ -79,6 +78,7 @@ public class EduCourseController {
 
 	@GetMapping("getPublishCourseInfo/{id}")
 	@ApiOperation("发布课程时的课程预览,后台管理系统用")
+	@RequiresRoles("course_admin")
 	public R getPublishCourseInfo(@PathVariable String id) {
 		CoursePublishVo coursePublishVo = courseService.publishCourseInfo(id);
 		return R.ok().data("publishCourse", coursePublishVo);
@@ -88,6 +88,7 @@ public class EduCourseController {
 	//修改课程状态
 	@PostMapping("publishCourse/{id}")
 	@ApiOperation("课程上架")
+	@RequiresRoles("course_admin")
 	public R publishCourse(@PathVariable String id) {
 		EduCourse eduCourse = new EduCourse();
 		eduCourse.setId(id);
@@ -99,13 +100,14 @@ public class EduCourseController {
 	//删除课程
 	@DeleteMapping("{courseId}")
 	@ApiOperation("删除课程")
+	@RequiresRoles("course_admin")
 	public R deleteCourse(@PathVariable String courseId) {
 		courseService.removeCourse(courseId);
 		return R.ok();
 	}
 
 	@GetMapping("getFrontCourseInfo/{id}")
-	@ApiOperation("获取课程信息(移动端)")
+	@ApiOperation("获取课程信息(用户端)")
 	public R getFrontCourseInfo(@PathVariable String id) {
 		try {
 			//查询课程信息,教师信息,课程简介,所属一级/二级学科
@@ -115,7 +117,7 @@ public class EduCourseController {
 			return R.ok().data("course", courseAndTeacherInfo).data("chapterVoList", chapterList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new GuliException(20001, "查询失败");
+			throw new GlobalException(20001, "查询失败");
 		}
 
 	}
