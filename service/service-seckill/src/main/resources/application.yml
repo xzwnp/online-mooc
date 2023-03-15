@@ -1,0 +1,19 @@
+spring:
+  rabbitmq:
+    host: beta.ynu.icu
+    port: 5672
+    virtual-host: /
+    publisher-confirm-type: correlated #消息从发送端到达交换机的确认
+    publisher-returns: true #消息从交换机抵达队列的确认
+    template:
+      mandatory: true #以异步发送优先回调returnConfirm 这个配不配无所谓
+    listener:
+      simple:
+        acknowledge-mode: manual #关闭自动应答,消息处理完成后需要手动应答
+  redis:
+    host: demo.ynu.icu
+    port: 6379
+    password: asd123
+  main:
+    allow-circular-references: true
+

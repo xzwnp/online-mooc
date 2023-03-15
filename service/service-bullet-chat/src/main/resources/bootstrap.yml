@@ -1,0 +1,17 @@
+server:
+  port: 8011
+spring:
+  application:
+    name: service-bullet-chat
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 8.134.162.31:8848
+        namespace: guli-xueyuan
+        prefix: default
+        file-extension: properties
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
