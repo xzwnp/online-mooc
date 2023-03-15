@@ -1,5 +1,7 @@
 package com.example.seckill;
 
+import com.example.seckill.mapper.SeckillCourseMapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 @SpringBootApplication
 @ComponentScan("com.example")
+@MapperScan(basePackageClasses = SeckillCourseMapper.class)
 public class SecKillApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecKillApplication.class, args);

@@ -3,6 +3,8 @@ package com.example.seckill.entity;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -33,9 +35,9 @@ public class SeckillCourse implements Serializable {
     private Integer seckillId;
 
     @ApiModelProperty(value = "秒杀开始时间")
-    private Date startTime;
+    private LocalDateTime startTime;
 
-    private Date endTime;
+    private LocalDateTime endTime;
 
     private String courseId;
 
