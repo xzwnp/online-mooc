@@ -1,5 +1,6 @@
 ### 带有实时弹幕推送的在线课程学习平台（https://github.com/xzwnp/online-mooc） 
-> 说明: 这是本项目的后端部分,用户前端见(https://github.com/xzwnp/online-mooc-web),后台管理系统见(https://github.com/xzwnp/online-mooc-admin)
+> 说明: 这是本项目的后端部分,用户前端见(https://github.com/xzwnp/online-mooc-web),
+后台管理系统见(https://github.com/xzwnp/online-mooc-admin)
 #### 项目介绍
 
 本系统采用微服务架构设计，包括课程详情、视频点播、课程秒杀、用户、订单、统计分析等模块。并在传统慕平台的基础上，引入了弹幕系统创造良好的课程讨论环境。本人主要完成架构设计、弹幕模块和课程秒杀模块的开发等工作。
