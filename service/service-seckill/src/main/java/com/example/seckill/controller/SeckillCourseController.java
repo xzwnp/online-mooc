@@ -1,6 +1,7 @@
 package com.example.seckill.controller;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.example.seckill.entity.SeckillCourse;
 import com.example.seckill.service.SeckillCourseService;

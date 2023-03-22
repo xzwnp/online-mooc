@@ -2,6 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>online-mooc</artifactId>
+
     <modules>
         <module>service</module>
         <module>common</module>
@@ -14,8 +17,6 @@
         <relativePath/> <!-- lookup parent from repository -->
         <!--        父工程通常进行版本的管理以及放公共依赖-->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>guli_parent</artifactId>
     <!--    指定打包类型为pom类型    -->
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
