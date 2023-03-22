@@ -20,9 +20,11 @@ import java.util.List;
 @FeignClient(name="service-vod",fallback = VodFileDegradeFeignClient.class) //指明调的是哪个服务
 @Component //注册为spring组件
 public interface VodClient {
-    //写的是被调用的mapping的相对路径
+    //删除云端存储的视频
     @DeleteMapping("eduvod/video/removeAlyVideo/{id}")
     R removeVideo(@PathVariable("id") String id);
+
+    //批量删除云端存储的视频
     @DeleteMapping("eduvod/video/removeAlyVideobatch/{id}")
     R removeVideoBatch(@RequestParam("videoIdList") List<String> videoIdList);
 

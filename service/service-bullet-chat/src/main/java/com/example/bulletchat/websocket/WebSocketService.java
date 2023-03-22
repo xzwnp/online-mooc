@@ -40,98 +40,96 @@ import java.util.Date;
 @ServerEndpoint("/edubc/bulletchat/{videoId}/{token}")
 @Slf4j
 public class WebSocketService implements ApplicationContextAware {
-    private Session session;
+	private Session session;
 
-    private String sessionId;
-    private String videoId;
-    private String userId;
-    private static RedisTemplate<String, Object> redisTemplate;
+	private String sessionId;
+	private String videoId;
+	private String userId;
 
-    private static RabbitTemplate rabbitTemplate;
+	private static RabbitTemplate rabbitTemplate;
 
-    @OnOpen
-    public void openConnection(Session session, @PathParam("token") String token, @PathParam("videoId") String videoId) {
-        JwtEntity userInfo = null;
-        try {
-            userInfo = JwtUtil.getUserInfo(token);
-            this.userId = userInfo.getUserId();
-            //游客也可以观看视频,建立连接
-        } catch (Exception e) {
-            this.userId = "temp::" + session.getId();
-        }
-        this.videoId = videoId;
-        this.sessionId = session.getId();
-        this.session = session;
-        WebSocketMap.put(this);
-        OnLineCountUtil.add(videoId, userId);
-        log.info("用户sessionId:{} 连接成功。当前视频在线人数：{}", sessionId, OnLineCountUtil.getVideoOnLineCount(videoId, userId));
-        sendMessage("连接建立成功!");
-    }
+	@OnOpen
+	public void openConnection(Session session, @PathParam("token") String token, @PathParam("videoId") String videoId) {
+		JwtEntity userInfo = null;
+		try {
+			userInfo = JwtUtil.getUserInfo(token);
+			this.userId = userInfo.getUserId();
+			//游客也可以观看视频,建立连接
+		} catch (Exception e) {
+			this.userId = "temp::" + session.getId();
+		}
+		this.videoId = videoId;
+		this.sessionId = session.getId();
+		this.session = session;
+		WebSocketMap.put(this);
+		OnLineCountUtil.add(videoId, userId);
+		log.info("用户sessionId:{} 连接成功。当前视频在线人数：{}", sessionId, OnLineCountUtil.getVideoOnLineCount(videoId, userId));
+		sendMessage("连接建立成功!");
+	}
 
-    @OnClose
-    public void closeConnection() {
-        WebSocketMap.remove(this);
-        OnLineCountUtil.remove(videoId, userId);
-        log.info("用户sessionId:{} 退出。当前在线人数：{}", sessionId, OnLineCountUtil.getVideoOnLineCount(videoId, userId));
-    }
+	@OnClose
+	public void closeConnection() {
+		WebSocketMap.remove(this);
+		OnLineCountUtil.remove(videoId, userId);
+		log.info("用户sessionId:{} 退出。当前在线人数：{}", sessionId, OnLineCountUtil.getVideoOnLineCount(videoId, userId));
+	}
 
-    /**
-     * 收到前端发来的弹幕时
-     *
-     * @param message
-     */
-    @OnMessage
-    public void onMessage(String message) {
-        BulletChatRequest request = JsonUtil.parse(message, BulletChatRequest.class);
-        if (!StringUtils.hasLength(request.getContent()) || request.getTimestamp() == null) {
-            return;
-        }
-        if (userId.startsWith("temp")) {
-            sendMessage("游客不能发送弹幕!");
-            return;
-        }
+	/**
+	 * 收到前端发来的弹幕时
+	 *
+	 * @param message
+	 */
+	@OnMessage
+	public void onMessage(String message) {
+		BulletChatRequest request = JsonUtil.parse(message, BulletChatRequest.class);
+		if (!StringUtils.hasLength(request.getContent()) || request.getTimestamp() == null) {
+			return;
+		}
+		if (userId.startsWith("temp")) {
+			sendMessage("游客不能发送弹幕!");
+			return;
+		}
 
-        BulletChat bulletChat = new BulletChat(null, videoId, userId, request.getContent(),
-                request.getTimestamp(), 0, new Date());
-        //投递到消息队列
-        rabbitTemplate.convertAndSend(MyRabbitBeanConfig.BULLET_SAVE_EXCHANGE, MyRabbitBeanConfig.BULLET_SAVE_BINDING, bulletChat);
-        sendMessage("弹幕发送成功!");
+		BulletChat bulletChat = new BulletChat(null, videoId, userId, request.getContent(),
+			request.getTimestamp(), 0, new Date());
+		//投递到消息队列
+		rabbitTemplate.convertAndSend(MyRabbitBeanConfig.BULLET_SAVE_EXCHANGE, MyRabbitBeanConfig.BULLET_SAVE_BINDING, bulletChat);
+		sendMessage("弹幕发送成功!");
 
-    }
+	}
 
-    @OnError
-    public void onError(Throwable error) {
-        error.printStackTrace();
-    }
+	@OnError
+	public void onError(Throwable error) {
+		error.printStackTrace();
+	}
 
-    public void sendMessage(String message) {
-        try {
-            this.session.getBasicRemote().sendText(message);
-        } catch (IOException e) {
-            log.error("WebSocket::videoId{},userId:{},content:{}||发送失败!原因:{}", videoId, userId, message, e.getMessage());
-        }
-    }
+	public void sendMessage(String message) {
+		try {
+			this.session.getBasicRemote().sendText(message);
+		} catch (IOException e) {
+			log.error("WebSocket::videoId{},userId:{},content:{}||发送失败!原因:{}", videoId, userId, message, e.getMessage());
+		}
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
-        try {
-            redisTemplate = (RedisTemplate<String, Object>) applicationContext.getBean("redisTemplate", RedisTemplate.class);
-            rabbitTemplate = applicationContext.getBean("rabbitTemplate", RabbitTemplate.class);
-        } catch (BeansException e) {
-            throw new GlobalException(ResultCode.ERROR, "WebSocketService初始化失败!");
-        }
-    }
+		try {
+			rabbitTemplate = applicationContext.getBean("rabbitTemplate", RabbitTemplate.class);
+		} catch (BeansException e) {
+			throw new GlobalException(ResultCode.ERROR, "WebSocketService初始化失败!");
+		}
+	}
 
-    public String getSessionId() {
-        return sessionId;
-    }
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public String getVideoId() {
-        return videoId;
-    }
+	public String getVideoId() {
+		return videoId;
+	}
 }

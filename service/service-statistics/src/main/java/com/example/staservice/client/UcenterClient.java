@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * 20:44
  * Steps：
  */
-@FeignClient(value = "service-ucenter",fallback = UcenterClientFallBack.class)
+@FeignClient(value = "service-ucenter", fallback = UcenterClientFallBack.class)
 @Component
 public interface UcenterClient {
-    @GetMapping(value = "educenter/member/countregister/{day}")
-    R registerCount(@PathVariable String day);
+	@GetMapping(value = "educenter/member/countregister/{day}")
+	R registerCount(@PathVariable("day") String day);
 }

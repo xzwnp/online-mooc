@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 
 /**
- * com.atguigu.gulimall.order.config
  *
  * @author xiaozhiwei
  * 2022/11/18

@@ -1,0 +1,40 @@
+@startuml
+participant Actor
+Actor -> EduCourseController : getFrontCourseInfo
+activate EduCourseController
+EduCourseController -> EduCourseService : getCourseAndTeacherInfoById
+activate EduCourseService
+EduCourseService --> EduCourseController
+deactivate EduCourseService
+EduCourseController -> EduChapterService : getChapterVideoByCourseId
+activate EduChapterService
+EduChapterService --> EduCourseController
+deactivate EduChapterService
+
+activate EduCourseMapper
+EduCourseController -> R : ok
+activate R
+R --> EduCourseController
+deactivate R
+EduCourseController -> R : data
+activate R
+R -> Map : put
+activate Map
+Map --> R
+deactivate Map
+R --> EduCourseController
+deactivate R
+EduCourseController -> R : data
+activate R
+R -> Map : put
+activate Map
+Map --> R
+deactivate Map
+R --> EduCourseController
+deactivate R
+EduCourseController -> Throwable : printStackTrace
+activate Throwable
+Throwable --> EduCourseController
+deactivate Throwable
+return
+@enduml

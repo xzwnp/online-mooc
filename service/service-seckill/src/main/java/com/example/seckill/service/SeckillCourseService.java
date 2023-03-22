@@ -3,11 +3,11 @@ package com.example.seckill.service;
 import com.example.seckill.entity.SeckillCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author xiaozhiwei
@@ -15,5 +15,13 @@ import java.time.LocalDateTime;
  */
 public interface SeckillCourseService extends IService<SeckillCourse> {
 
-    void shelf();
+	void shelf();
+
+	String getSeckillCourseKey(String courseId);
+
+	List<SeckillCourse> getSeckillInfo();
+
+	void doSeckill(Integer seckillId, String key);
+
+	void clearExpireSeckillCourse();
 }

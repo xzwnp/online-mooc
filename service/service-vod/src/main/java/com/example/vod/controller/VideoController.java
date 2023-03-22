@@ -63,7 +63,6 @@ public class VideoController {
 		@RequestParam("file") MultipartFile file) {
 
 		String videoId = videoService.uploadVideoPlay(file);
-		//不需要写上传失败的情况,因为如果视频上传失败service层会抛异常,然后被自己配置的exceptionHandler捕获,并返回异常
 		return R.ok().message("视频上传成功").data("videoId", videoId);
 	}
 
@@ -79,7 +78,7 @@ public class VideoController {
 
 	@GetMapping("getPlayAuth/{id}")
 	@ApiOperation("获取视频播放凭证")
-//	@RequiresAuthentication
+	@RequiresAuthentication
 	public R getPlayAuth(@ApiParam(name = "videoId", value = "云端视频id", required = true)
 						 @PathVariable("id") String videoId) {
 		log.info(videoId);

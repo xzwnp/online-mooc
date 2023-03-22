@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Component("ucenter")
 @FeignClient("service-ucenter")
 public interface UCenterClient {
-    //根据课程id查询课程信息
-    @GetMapping("/educenter/member/userOrderInfo/{id}")
-    UserInfoOrderVo getInfo(@PathVariable("id") String id);
-
+	//根据课程id查询用户信息
+	@GetMapping("/educenter/member/userOrderInfo/{id}")
+	UserInfoOrderVo getInfo(@PathVariable("id") String id);
 
 }
