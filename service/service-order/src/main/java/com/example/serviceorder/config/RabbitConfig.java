@@ -1,8 +1,7 @@
-package com.example.bulletchat.config;
+package com.example.serviceorder.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -24,6 +23,7 @@ import javax.annotation.PostConstruct;
 public class RabbitConfig {
     @Autowired
     ObjectMapper objectMapper;
+
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter(objectMapper);
@@ -36,14 +36,13 @@ public class RabbitConfig {
     public void initRabbitTemplate() {
         /**
          *
-         * @param correlationData 消息id
+         * @param correlationData 消息的id
          * @param ack 是否收到
          * @param cause 失败原因
          */
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
             if (!ack) {
                 log.info("消息id:{}未收到,原因:{}", correlationData, cause);
-                //这里应该定义消息未收到的解决方案
             } else {
                 log.info("消息id:{}已送出", correlationData);
             }

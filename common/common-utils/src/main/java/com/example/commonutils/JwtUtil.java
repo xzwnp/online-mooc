@@ -68,6 +68,9 @@ public class JwtUtil {
         if (!StringUtils.hasLength(jwtToken)) {
             return false;
         }
+        if (jwtToken.startsWith("Bearer ")) {
+            jwtToken = jwtToken.substring(6, jwtToken.length() - 1);
+        }
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {

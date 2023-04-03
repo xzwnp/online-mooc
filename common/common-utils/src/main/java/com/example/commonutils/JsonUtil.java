@@ -26,7 +26,7 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(jsonString, targetClass);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("读取json失败", e);
+            throw new RuntimeException("读取json失败,json:" + jsonString + "\n", e);
         }
     }
 
@@ -34,7 +34,7 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(jsonString, typeReference);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("读取json失败", e);
+            throw new RuntimeException("读取json失败,json:" + jsonString + "\n", e);
         }
     }
 }

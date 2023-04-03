@@ -2,6 +2,7 @@ package com.example.serviceorder.service;
 
 import com.example.serviceorder.entity.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.commonutils.vo.SeckillCourseOrder;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrderService extends IService<Order> {
     String saveOrder(String courseId, String userId);
+
+    void saveSeckillOrder(SeckillCourseOrder orderInfo);
 }

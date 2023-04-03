@@ -54,15 +54,13 @@ public class BulletChatServiceImpl extends ServiceImpl<BulletChatMapper, BulletC
             wrapper.eq(BulletChat::getVideoId, bulletChat.getVideoId());
             bulletChatList = Optional.of(baseMapper.selectList(wrapper)).orElseGet(ArrayList::new);
         } else {
+            //redis有
             bulletChatList = JsonUtil.parse(String.valueOf(rawBulletChatList), new TypeReference<List<BulletChat>>() {
             });
             bulletChatList.add(bulletChat);
         }
-        //更新到redis
+        //更新到redis,同时刷新该视频弹幕缓存的过期时间
         redisTemplate.opsForValue().set(videoBulletKey, bulletChatList, 5, TimeUnit.SECONDS);
-
-        //发布消息,通知推送给其他正在观看视频的用户
-        rabbitTemplate.convertAndSend(MyRabbitBeanConfig.BULLET_PUSH_EXCHANGE, "", bulletChat);
 
     }
 
@@ -78,7 +76,7 @@ public class BulletChatServiceImpl extends ServiceImpl<BulletChatMapper, BulletC
     @Override
     public void pushBullet(BulletChat bulletChat) {
         //optional避免空指针
-        Optional.of(WebSocketMap.getAllByVideoId(bulletChat.getVideoId()))
+        Optional.ofNullable(WebSocketMap.getAllByVideoId(bulletChat.getVideoId()))
                 .ifPresent((map) -> {
                     for (WebSocketService webSocketService : map.values()) {
                         String bulletChatMessage = JsonUtil.toJsonString(bulletChat);

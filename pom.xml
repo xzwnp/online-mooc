@@ -20,7 +20,7 @@
     <!--    指定打包类型为pom类型    -->
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>guli_parent</name>
+    <name>online-mooc</name>
     <description>Demo project for Spring Boot</description>
     <!--    添加 <properties>确定依赖的版本-->
     <properties>

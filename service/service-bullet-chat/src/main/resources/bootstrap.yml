@@ -1,5 +1,5 @@
 server:
-  port: 8011
+  port: 8021
 spring:
   application:
     name: service-bullet-chat

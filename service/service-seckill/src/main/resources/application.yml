@@ -10,7 +10,11 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual #关闭自动应答,消息处理完成后需要手动应答
-
+  jackson:
+    modules:
+      - com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+    serialization:
+      write-dates-as-timestamps: false
   redis:
     host: demo.ynu.icu
     port: 6379

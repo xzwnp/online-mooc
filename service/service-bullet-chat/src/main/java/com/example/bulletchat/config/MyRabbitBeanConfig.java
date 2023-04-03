@@ -1,16 +1,13 @@
 package com.example.bulletchat.config;
 
-import com.example.bulletchat.entity.BulletChat;
-import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
+import java.util.UUID;
 
 /**
- *
  * @author xiaozhiwei
  * 2022/11/18
  * 17:17
@@ -21,7 +18,9 @@ public class MyRabbitBeanConfig {
     public static final String BULLET_SAVE_QUEUE = "bullet.save.queue";
     public static final String BULLET_SAVE_BINDING = "bulletSaveBinding";
     public static final String BULLET_PUSH_EXCHANGE = "bulletPushExchange";
-    public static final String BULLET_PUSH_QUEUE = "bullet.push.queue.A";
+    public static final String BULLET_PUSH_QUEUE_PREFIX = "bullet.push.queue.";
+    @Value("${server.port}")
+    private String port;
 
 
     @Bean
@@ -56,8 +55,9 @@ public class MyRabbitBeanConfig {
     @Bean
     public Queue bulletPublishQueue() {
         //由于绑定的是fan-out交换机,需要保证每个服务的队列都不一样,使用临时队列即可
-        return new Queue(BULLET_PUSH_QUEUE, true, false, false);
+        String queueName = BULLET_PUSH_QUEUE_PREFIX + UUID.randomUUID().toString().replace("-", "").substring(16, 32);
 
+        return new Queue(queueName, true, false, false);
     }
 
 

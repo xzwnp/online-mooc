@@ -22,40 +22,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(GlobalException.class)
-	@ResponseBody
-	public R error(GlobalException e) {
-		log.error("自定义错误:", e);
-		return R.error().code(e.getCode()).message(e.getMsg());
-	}
+    @ExceptionHandler(GlobalException.class)
+    @ResponseBody
+    public R error(GlobalException e) {
+        log.error("错误信息:" + e.getMsg(), e);
+        return R.error().code(e.getCode()).message(e.getMsg());
+    }
 
 
-	@ExceptionHandler(CannotCreateTransactionException.class)
-	@ResponseBody //指定返回json数据
-	public R error(CannotCreateTransactionException e) {
-		log.error("数据库连接超时:", e);
-		return R.error().message("数据库连接超时!");
-	}
+    @ExceptionHandler(CannotCreateTransactionException.class)
+    @ResponseBody //指定返回json数据
+    public R error(CannotCreateTransactionException e) {
+        log.error("数据库连接超时:", e);
+        return R.error().message("数据库连接超时!");
+    }
 
 
-	@ExceptionHandler(AuthenticationException.class)
-	@ResponseBody //指定返回json数据
-	public R error(AuthenticationException e) {
-		return R.error().code(30001).message("token过期或无效,请重新登录!");
-	}
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseBody //指定返回json数据
+    public R error(AuthenticationException e) {
+        return R.error().code(30001).message("token过期或无效,请重新登录!");
+    }
 
-	@ExceptionHandler(AuthorizationException.class)
-	@ResponseBody //指定返回json数据
-	public R error(AuthorizationException e) {
-		log.error("无权限:", e);
-		return R.error().code(30001).message("您没有权限!");
-	}
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseBody //指定返回json数据
+    public R error(AuthorizationException e) {
+        log.error("无权限:", e);
+        return R.error().code(30001).message("您没有权限!");
+    }
 
-	//加上这个注解表示用于处理exception异常类
-	@ExceptionHandler(Exception.class)
-	@ResponseBody //指定返回json数据
-	public R error(Exception e) {
-		log.error("服务器出错:", e);
-		return R.error().message("服务器出错,请联系管理员");
-	}
+    //加上这个注解表示用于处理exception异常类
+    @ExceptionHandler(Exception.class)
+    @ResponseBody //指定返回json数据
+    public R error(Exception e) {
+        log.error("服务器出错:", e);
+        return R.error().message("服务器出错,请联系管理员");
+    }
 }

@@ -1,38 +1,35 @@
-package com.example.bulletchat.consumer;
+package com.example.serviceorder.consumer;
 
-import com.example.bulletchat.config.MyRabbitBeanConfig;
-import com.example.bulletchat.entity.BulletChat;
-import com.example.bulletchat.service.BulletChatService;
+import com.example.serviceorder.config.RabbitBeanConfig;
+import com.example.commonutils.vo.SeckillCourseOrder;
+import com.example.serviceorder.service.OrderService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
- * com.example.bulletchat.consumer
- *
  * @author xiaozhiwei
  * 2023/3/13
  * 17:48
  */
-@RabbitListener(queues = MyRabbitBeanConfig.BULLET_SAVE_QUEUE)
+@RabbitListener(queues = RabbitBeanConfig.SECKILL_ORDER_SAVE_QUEUE)
 @Component
 @Slf4j
-public class BulletChatSaveListener {
+public class SeckillOrderCreateListener {
     @Autowired
-    BulletChatService bulletChatService;
+    OrderService orderService;
 
     @RabbitHandler(isDefault = true)
-    public void saveBulletChat(BulletChat bulletChat, Channel channel, Message message) {
-        log.info("收到弹幕新增消息,弹幕内容:{}", bulletChat.getContent());
-        bulletChatService.saveBullet(bulletChat);
+    public void createOrder(SeckillCourseOrder orderInfo, Channel channel, Message message) {
 
+        log.info("消费者-正在创建订单" + message.getMessageProperties().getCorrelationId());
+        orderService.saveSeckillOrder(orderInfo);
         //手动应答
         try {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

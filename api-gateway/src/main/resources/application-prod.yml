@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        namespace: guli-xueyuan
+        server-addr: 8.134.162.31:8848
+        group: PROD_GROUP

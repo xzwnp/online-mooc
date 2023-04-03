@@ -5,24 +5,19 @@ import com.example.commonutils.vo.UserInfoOrderVo;
 import com.example.serviceorder.client.EduClient;
 import com.example.serviceorder.client.UCenterClient;
 import com.example.serviceorder.entity.Order;
-import com.example.serviceorder.entity.vo.OrderVo;
+import com.example.commonutils.vo.SeckillCourseOrder;
 import com.example.serviceorder.mapper.OrderMapper;
 import com.example.serviceorder.service.OrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.serviceorder.util.OrderNoUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
  * 订单 服务实现类
  * </p>
- *
-
- * 
  */
 @Service
 @Slf4j
@@ -57,5 +52,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setPayType(1);
         baseMapper.insert(order);
         return order.getOrderNo();
+    }
+
+    @Override
+    public void saveSeckillOrder(SeckillCourseOrder orderInfo) {
+        Order order = new Order();
+        order.setOrderNo(OrderNoUtil.getOrderNo());
+        order.setCourseId(orderInfo.getCourseId());
+        order.setCourseTitle(orderInfo.getCourseName());
+        order.setCourseCover(orderInfo.getCourseCover());
+        order.setTotalFee(orderInfo.getActualPrice());
+        order.setMemberId(orderInfo.getBuyerId());
+        order.setStatus(0);
+        order.setPayType(1);
+        baseMapper.insert(order);
+        //todo 推送消息让用户去支付
     }
 }

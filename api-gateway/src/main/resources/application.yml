@@ -1,14 +1,11 @@
 server:
   port: 9001
 spring:
+  profiles:
+    active: dev
   application:
     name: service-gateway
   cloud:
-    nacos:
-      discovery:
-        namespace: guli-xueyuan
-        server-addr: 8.134.162.31:8848
-        group: PROD_GROUP
     gateway:
       #      跨域配置文件
       globalcors:
@@ -27,6 +24,7 @@ spring:
           predicates: Path=/eduservice/**
           uri: lb://service-edu
           swagger-name: "课程教师接口"
+
         - id: service-ucenter
           predicates: Path=/educenter/**
           uri: lb://service-ucenter
@@ -59,3 +57,12 @@ spring:
           swagger-name: "视频点播"
           uri: lb://service-vod
 
+        - id: service-bullet-chat
+          predicates: Path=/edubc/**
+          swagger-name: "弹幕服务"
+          uri: lb://service-bullet-chat
+
+        - id: service-seckill
+          predicates: Path=/seckill/**
+          swagger-name: "弹幕服务"
+          uri: lb://service-seckill

@@ -12,7 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RedisUtil {
     public static final String SEPARATOR = "::";
 
-    public static String buildKey(String... args) {
+
+    public static String buildKey(Object... args) {
         if (args.length < 1) {
             return "";
         }

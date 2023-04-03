@@ -4,6 +4,8 @@ package com.example.bulletchat.controller;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.example.bulletchat.entity.BulletChat;
 import com.example.bulletchat.service.BulletChatService;
+import io.swagger.annotations.Api;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/edubc/bullet-chat")
+@Api(tags = "弹幕控制器")
 public class BulletChatController {
     @Autowired
     BulletChatService bulletChatService;

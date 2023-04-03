@@ -1,5 +1,6 @@
 package com.example.seckill.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -20,9 +21,12 @@ import javax.annotation.PostConstruct;
 @Configuration
 @Slf4j
 public class RabbitConfig {
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Bean
     public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 
     @Autowired

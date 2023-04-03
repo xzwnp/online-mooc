@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootApplication
 @ComponentScan("com.example")
 @MapperScan(basePackageClasses = SeckillCourseMapper.class)
+@EnableScheduling
 public class SecKillApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecKillApplication.class, args);

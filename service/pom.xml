@@ -27,6 +27,11 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
+<!--        &lt;!&ndash;   jackson localDateTime序列化支持     &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--        </dependency>-->
         <!--        swagger相关配置在service-base模块中,需要引入-->
         <dependency>
             <groupId>com.example</groupId>
