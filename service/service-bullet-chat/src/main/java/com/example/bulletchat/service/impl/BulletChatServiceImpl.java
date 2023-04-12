@@ -53,12 +53,11 @@ public class BulletChatServiceImpl extends ServiceImpl<BulletChatMapper, BulletC
             bulletChatList = Optional.of(baseMapper.selectList(wrapper)).orElseGet(ArrayList::new);
         } else {
             //redis有
-            bulletChatList = JsonUtil.parse(String.valueOf(rawBulletChatList), new TypeReference<List<BulletChat>>() {
-            });
+            bulletChatList = (List<BulletChat>) rawBulletChatList;
             bulletChatList.add(bulletChat);
         }
         //更新到redis,同时刷新该视频弹幕缓存的过期时间
-        redisTemplate.opsForValue().set(videoBulletKey, bulletChatList, 5, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(videoBulletKey, bulletChatList, 10, TimeUnit.SECONDS);
 
     }
 
@@ -95,10 +94,10 @@ public class BulletChatServiceImpl extends ServiceImpl<BulletChatMapper, BulletC
                 LambdaQueryWrapper<BulletChat> wrapper = new LambdaQueryWrapper<>();
                 wrapper.eq(BulletChat::getVideoId, videoId);
                 bulletChatList = baseMapper.selectList(wrapper);
+                redisTemplate.opsForValue().set(getVideoBulletKey(videoId), bulletChatList);
             }
         } else {
-            bulletChatList = JsonUtil.parse(String.valueOf(rawBulletChatList), new TypeReference<List<BulletChat>>() {
-            });
+            bulletChatList = (List<BulletChat>) rawBulletChatList;
         }
         return bulletChatList;
     }

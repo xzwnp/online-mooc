@@ -11,6 +11,7 @@ package com.example.commonutils;
 public interface ResultCode {
     Integer SUCCESS = 20000;
     Integer ERROR = 20001;
-    //支付中
-    Integer PAYING = 25000;
+        Integer FALLBACK = 25000;
+
+    Integer BUSY = 30001;
 }

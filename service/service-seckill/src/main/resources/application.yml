@@ -15,10 +15,12 @@ spring:
       - com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
     serialization:
       write-dates-as-timestamps: false
-  redis:
-    host: demo.ynu.icu
-    port: 6379
-    password: asd123
   main:
     allow-circular-references: true
-
+# 限速器:限制一段时间内的访问数
+resilience4j.ratelimiter:
+  instances:
+    default:
+      limitRefreshPeriod: 1s #周期时长
+      limitForPeriod: 100 #每个周期最多多少请求
+      timeoutDuration: 3s #没拿到令牌,最多等多久

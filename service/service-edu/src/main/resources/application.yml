@@ -1,0 +1,21 @@
+# 自定义日志框架相关配置
+log-record:
+  enable: true
+  persistence:
+    elk:
+      enabled: false
+      host: demo.ynu.icu
+      project-name: online-mooc
+    file:
+      enabled: true
+# Spring官方推荐,代替hystrix实现熔断、限流
+# 断路器配置
+resilience4j.circuitbreaker:
+  instances:
+    # 可以配置多个实例,名字自定义
+    default:
+      registerHealthIndicator: true
+      slidingWindowType: TIME_BASED # 滑动窗口类型：COUNT_BASED 基于计数的滑动窗口, TIME_BASED 基于计时的滑动窗口
+      slidingWindowSize: 10 # 滑动窗口大小
+      permittedNumberOfCallsInHalfOpenState: 3 # 当 circuitbreaker 处于 HalfOpen 允许通过的请求数量
+#      recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate

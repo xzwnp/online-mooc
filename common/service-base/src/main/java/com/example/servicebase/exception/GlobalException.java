@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GlobalException extends RuntimeException{
-    private int code;
-    private String msg;
+    protected int code;
+    protected String msg;
 
 }

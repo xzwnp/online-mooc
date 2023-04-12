@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.example.seckill.entity.SeckillCourse;
 import com.example.seckill.entity.SeckillSession;
 import com.example.seckill.service.SeckillCourseService;
+import com.example.servicebase.exception.ServiceBusyException;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -48,9 +50,14 @@ public class SeckillCourseController {
     @ApiOperation("进行秒杀")
     @PostMapping("doSeckill")
     @RequiresAuthentication
+    @RateLimiter(name = "default", fallbackMethod = "seckillFallback")
     public R<?> doSeckill(Integer sessionId, Integer seckillId, String key) {
         seckillCourseService.doSeckill(sessionId, seckillId, key);
         return R.ok(null).setMsg("抢购成功,正在为您生成订单...");
+    }
+
+    public R<?> seckillFallback(Integer sessionId, Integer seckillId, String key, Exception e) {
+        throw new ServiceBusyException();
     }
 
     @ApiOperation("添加秒杀课程")

@@ -27,10 +27,26 @@ services:
     restart: on-failure
     ports:
       - "8004:8004"
+  service-order:
+    build: ./service/service-order
+    restart: on-failure
+    ports:
+      - "8007:8007"
   service-statistics:
     build: ./service/service-statistics
+    restart: on-failure
     ports:
       - "8009:8009"
+  service-seckill:
+    build: ./service/service-seckill
+    restart: on-failure
+    ports:
+      - "8011:8011"
+  service-bullet-chat:
+    build: ./service/service-bullet-chat
+    restart: on-failure
+    ports:
+      - "8021:8021"
   service-gateway:
     build: ./api-gateway
     restart: on-failure
