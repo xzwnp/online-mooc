@@ -64,5 +64,5 @@ spring:
 
         - id: service-seckill
           predicates: Path=/seckill/**
-          swagger-name: "弹幕服务"
+          swagger-name: "秒杀服务"
           uri: lb://service-seckill

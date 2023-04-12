@@ -40,8 +40,8 @@ public class SeckillCourseController {
     @ApiOperation("获取某一秒杀课程的秒杀key")
     @GetMapping("getKey")
     @RequiresAuthentication
-    public R<String> getSecKillCourseKey(String courseId) {
-        String key = seckillCourseService.getSeckillCourseKey(courseId);
+    public R<String> getSecKillCourseKey(String sessionId, String seckillId) {
+        String key = seckillCourseService.getSeckillCourseKey(sessionId, seckillId);
         return R.ok(key);
     }
 

@@ -1,7 +1,6 @@
 package com.example.bulletchat.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.bulletchat.config.MyRabbitBeanConfig;
 import com.example.bulletchat.entity.BulletChat;
 import com.example.bulletchat.mapper.BulletChatMapper;
 import com.example.bulletchat.service.BulletChatService;
@@ -15,7 +14,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

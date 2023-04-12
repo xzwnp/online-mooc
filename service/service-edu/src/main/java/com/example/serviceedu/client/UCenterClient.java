@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
  * 11:50
  * Steps：
  */
-@Component("ucenter")
 @FeignClient("service-ucenter")
 public interface UCenterClient {
 	//根据课程id查询用户信息

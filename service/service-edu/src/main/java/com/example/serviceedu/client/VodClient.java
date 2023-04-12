@@ -18,7 +18,6 @@ import java.util.List;
  * Steps：
  */
 @FeignClient(name="service-vod",fallback = VodFileDegradeFeignClient.class) //指明调的是哪个服务
-@Component //注册为spring组件
 public interface VodClient {
     //删除云端存储的视频
     @DeleteMapping("eduvod/video/removeAlyVideo/{id}")

@@ -55,6 +55,7 @@ public class EduCourseController {
     @ApiOperation("新增课程")
     @PostMapping("addCourseInfo")
     @RequiresRoles("course_admin")
+    @LogRecord(bizId = "#courseInfoVo.id", bizType = "课程基本信息", content = "'新增了一门课程'")
     public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
         //返回添加之后课程id，为了后面添加大纲使用
         String id = courseService.saveCourseInfo(courseInfoVo);

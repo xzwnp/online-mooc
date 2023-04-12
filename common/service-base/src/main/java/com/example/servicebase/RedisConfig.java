@@ -40,7 +40,7 @@ import java.time.format.DateTimeFormatter;
 @EnableCaching
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
-    private ObjectMapper om;
+    private final ObjectMapper om;
 
     public RedisConfig() {
         //objectMapper初始化

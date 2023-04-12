@@ -1,6 +1,5 @@
 package com.example.bulletchat.consumer;
 
-import com.example.bulletchat.config.MyRabbitBeanConfig;
 import com.example.bulletchat.entity.BulletChat;
 import com.example.bulletchat.service.BulletChatService;
 import com.rabbitmq.client.Channel;
@@ -20,11 +19,10 @@ import java.io.IOException;
  * 2023/3/13
  * 17:48
  */
-@RabbitListener(queues = "#{bulletPublishQueue.name}")
+@RabbitListener(queues = "#{bulletPublishQueue.name}") //使用spel表达式来解决注解只能使用常量的问题#{}里面放的是一个bean.属性
 @Component
 @Slf4j
 public class BulletChatPushListener {
-    public String queueName = MyRabbitBeanConfig.BULLET_PUSH_QUEUE_PREFIX;
 
     @Autowired
     BulletChatService bulletChatService;

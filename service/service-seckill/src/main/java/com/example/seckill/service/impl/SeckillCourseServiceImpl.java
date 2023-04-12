@@ -103,10 +103,11 @@ public class SeckillCourseServiceImpl extends ServiceImpl<SeckillCourseMapper, S
                 semaphore.trySetPermits(course.getStoreCount());
                 redisTemplate.expire(storeKey, 4, TimeUnit.DAYS);
 
-                //冗余一个key保存课程的开始时间,也可以不冗余,从hash里面取出课程信息,然后反序列化,再获取开始时间
-                String startTimeKey = RedisUtil.buildKey(SECKILL_COUSE_START_TIME_PREFIX, course.getSeckillId().toString());
-                redisTemplate.opsForValue().set(startTimeKey, course.getStartTime());
-                redisTemplate.expire(startTimeKey, 4, TimeUnit.DAYS);
+                //已过时
+//                //冗余一个key保存课程的开始时间,也可以不冗余,从hash里面取出课程信息,然后反序列化,再获取开始时间
+//                String startTimeKey = RedisUtil.buildKey(SECKILL_COUSE_START_TIME_PREFIX, course.getSeckillId().toString());
+//                redisTemplate.opsForValue().set(startTimeKey, course.getStartTime());
+//                redisTemplate.expire(startTimeKey, 4, TimeUnit.DAYS);
 
                 //初始化买家名单
                 String buySetKey = getBuyerSetKey(course.getSeckillId());
@@ -118,16 +119,23 @@ public class SeckillCourseServiceImpl extends ServiceImpl<SeckillCourseMapper, S
 
 
     @Override
-    public String getSeckillCourseKey(String seckillId) {
-        //开始时间
-        String startTimeKey = RedisUtil.buildKey(SECKILL_COUSE_START_TIME_PREFIX, seckillId);
-        String startTimeString = String.valueOf(redisTemplate.opsForValue().get(startTimeKey));
-        LocalDateTime startTime = DateTimeUtil.parseDate(startTimeString);
+    public String getSeckillCourseKey(String sessionId, String seckillId) {
+        String sessionKey = RedisUtil.buildKey(SECKILL_SESSION_PREFIX, sessionId);
+        SeckillCourse course = (SeckillCourse) redisTemplate.opsForHash().get(sessionKey, sessionId);
+        if (course == null) {
+            throw new GlobalException(ResultCode.ERROR, "秒杀课程已过期无效!");
+        }
+        //开始,结束时间
+        LocalDateTime startTime = course.getStartTime();
+        LocalDateTime endTime = course.getEndTime();
         //检查是否已经开始
         if (LocalDateTime.now().isBefore(startTime)) {
-            throw new GlobalException(ResultCode.ERROR, "秒杀还未开始!");
+            throw new GlobalException(ResultCode.ERROR, "秒杀课程还未开始!");
         }
-
+        //检查是否已经开始
+        if (LocalDateTime.now().isAfter(endTime)) {
+            throw new GlobalException(ResultCode.ERROR, "秒杀课程已结束!");
+        }
         //获取课程id
         String encodedSeckillId = MD5Utils.md5Hex(seckillId + SALT, "utf-8");
         return encodedSeckillId;
@@ -187,10 +195,6 @@ public class SeckillCourseServiceImpl extends ServiceImpl<SeckillCourseMapper, S
             rabbitTemplate.convertAndSend(RabbitBeanConfig.SECKILL_ORDER_SAVE_EXCHANGE, RabbitBeanConfig.SECKILL_ORDER_SAVE_BINDING,
                     order, CorrelationDataUtil.generate());
         } catch (Exception e) {
-            if (e instanceof GlobalException) {
-                //自己手动抛的不管
-                throw e;
-            }
             //回滚!redis不支持只能手动来
             if (hasAddedToUserSet) {
                 redisTemplate.opsForSet().remove(buyerSetKey, userId);
@@ -208,6 +212,7 @@ public class SeckillCourseServiceImpl extends ServiceImpl<SeckillCourseMapper, S
         String storeKey = RedisUtil.buildKey(SECKILL_COURSE_STORE_PREFIX, encodedSeckillId);
         return storeKey;
     }
+
 
     private String getBuyerSetKey(Integer seckillId) {
         String encodedSeckillId = MD5Utils.md5Hex(seckillId + SALT, "utf-8");

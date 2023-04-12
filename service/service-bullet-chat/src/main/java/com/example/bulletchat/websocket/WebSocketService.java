@@ -1,6 +1,6 @@
 package com.example.bulletchat.websocket;
 
-import com.example.bulletchat.config.MyRabbitBeanConfig;
+import com.example.bulletchat.config.RabbitBeanConfig;
 import com.example.bulletchat.entity.BulletChat;
 import com.example.bulletchat.entity.BulletChatRequest;
 import com.example.bulletchat.util.OnLineCountUtil;
@@ -15,14 +15,12 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -93,9 +91,9 @@ public class WebSocketService implements ApplicationContextAware {
         BulletChat bulletChat = new BulletChat(null, videoId, userId, request.getContent(),
                 request.getTimestamp(), 0, new Date());
         //发布弹幕到消息队列,让所有弹幕服务向已连接的websocket发送消息
-        rabbitTemplate.convertAndSend(MyRabbitBeanConfig.BULLET_PUSH_EXCHANGE, "", bulletChat);
+        rabbitTemplate.convertAndSend(RabbitBeanConfig.BULLET_PUSH_EXCHANGE, "", bulletChat);
         //发送保存弹幕的消息到消息队列,异步保存
-        rabbitTemplate.convertAndSend(MyRabbitBeanConfig.BULLET_SAVE_EXCHANGE, MyRabbitBeanConfig.BULLET_SAVE_BINDING, bulletChat);
+        rabbitTemplate.convertAndSend(RabbitBeanConfig.BULLET_SAVE_EXCHANGE, RabbitBeanConfig.BULLET_SAVE_BINDING, bulletChat);
         sendMessage("弹幕发送成功!");
 
     }

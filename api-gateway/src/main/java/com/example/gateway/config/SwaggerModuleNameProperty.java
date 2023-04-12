@@ -41,7 +41,7 @@ public class SwaggerModuleNameProperty implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         StringBuilder routerInfo = new StringBuilder();
-        routerInfo.append("发现以下路由信息");
+        routerInfo.append("发现以下路由信息:");
         routes.forEach(route -> {
             MODULE_ID_NAME_MAP.put(route.getId(), route.getSwaggerName());
             routerInfo.append("[").append(route.getId()).append("-").append(route.getSwaggerName()).append("]").append(",");

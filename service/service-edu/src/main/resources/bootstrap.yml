@@ -4,7 +4,7 @@ spring:
   application:
     name: service-edu
   profiles:
-    active: prod
+    active: dev
   cloud:
     nacos:
       config:

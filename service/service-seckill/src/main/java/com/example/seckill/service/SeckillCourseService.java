@@ -28,7 +28,7 @@ public interface SeckillCourseService extends IService<SeckillCourse> {
      * 比如某个脚本11:59:50发的请求,12:00:00刚好到达服务器,就能秒杀到
      * 而用户12:00:00才能发请求,12:00:10才到达服务器,抢不过脚本,这是不公平的!
      */
-    String getSeckillCourseKey(String courseId);
+    String getSeckillCourseKey(String sessionId, String seckillId);
 
     /**
      * 获取某一秒杀场次的所有课程

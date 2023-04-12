@@ -13,7 +13,7 @@ import java.util.UUID;
  * 17:17
  */
 @Configuration
-public class MyRabbitBeanConfig {
+public class RabbitBeanConfig {
     public static final String BULLET_SAVE_EXCHANGE = "bulletSaveExchange";
     public static final String BULLET_SAVE_QUEUE = "bullet.save.queue";
     public static final String BULLET_SAVE_BINDING = "bulletSaveBinding";
@@ -57,7 +57,7 @@ public class MyRabbitBeanConfig {
         //由于绑定的是fan-out交换机,需要保证每个服务的队列都不一样,使用临时队列即可
         String queueName = BULLET_PUSH_QUEUE_PREFIX + UUID.randomUUID().toString().replace("-", "").substring(16, 32);
 
-        return new Queue(queueName, true, false, false);
+        return new Queue(queueName, true, false, true);
     }
 
 

@@ -1,6 +1,6 @@
 package com.example.bulletchat.consumer;
 
-import com.example.bulletchat.config.MyRabbitBeanConfig;
+import com.example.bulletchat.config.RabbitBeanConfig;
 import com.example.bulletchat.entity.BulletChat;
 import com.example.bulletchat.service.BulletChatService;
 import com.rabbitmq.client.Channel;
@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ import java.io.IOException;
  * 2023/3/13
  * 17:48
  */
-@RabbitListener(queues = MyRabbitBeanConfig.BULLET_SAVE_QUEUE)
+@RabbitListener(queues = RabbitBeanConfig.BULLET_SAVE_QUEUE)
 @Component
 @Slf4j
 public class BulletChatSaveListener {
